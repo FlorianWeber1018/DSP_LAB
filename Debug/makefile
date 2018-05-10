@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv6/tools/compiler/c6000_7.4.18
+CG_TOOL_ROOT := C:/ti/ccsv6/tools/compiler/c6000_7.4.16
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := -l"./BIOS_configcfg.cmd"
@@ -127,32 +127,32 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-DSPLAB.out \
+SSB.out \
 
 EXE_OUTPUTS__QUOTED += \
-"DSPLAB.out" \
+"SSB.out" \
 
 BIN_OUTPUTS += \
-DSPLAB.hex \
+SSB.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"DSPLAB.hex" \
+"SSB.hex" \
 
 
 # All Target
-all: DSPLAB.out
+all: SSB.out
 
 # Tool invocations
-DSPLAB.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+SSB.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"C:/ti/ccsv6/tools/compiler/c6000_7.4.18/bin/cl6x" -mv6700 --abi=coffabi -O2 -g --define=c6713 --define=CHIP_6713 --diag_wrap=off --diag_warning=225 --display_error_number -z --stack_size=0x4000 -m"DSPLAB.map" --heap_size=0x800 -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.18/lib" -i"C:/ti/DSPLIB/c6700/dsplib/lib" -i"C:/ti/C6xCSL/lib_3x" -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.18/include" -i"C:/ti/bios_5_42_02_10/packages/ti/rtdx/lib/c6000" -i"C:/ti/bios_5_42_02_10/packages/ti/bios/lib" --reread_libs --warn_sections --diag_wrap=off --display_error_number --xml_link_info="DSPLAB_linkInfo.xml" --rom_model -o "DSPLAB.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/bin/cl6x" -mv6700 --abi=coffabi -O2 -g --define=c6713 --define=CHIP_6713 --display_error_number --diag_warning=225 --diag_wrap=off -z --stack_size=0x4000 -m"SSB.map" --heap_size=0x800 -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/lib" -i"C:/ti/DSPLIB/c6700/dsplib/lib" -i"C:/ti/C6xCSL/lib_3x" -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include" -i"C:/ti/bios_5_42_02_10/packages/ti/rtdx/lib/c6000" -i"C:/ti/bios_5_42_02_10/packages/ti/bios/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="SSB_linkInfo.xml" --rom_model -o "SSB.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-DSPLAB.hex: $(EXE_OUTPUTS)
+SSB.hex: $(EXE_OUTPUTS)
 	@echo 'Invoking: C6000 Hex Utility'
-	"C:/ti/ccsv6/tools/compiler/c6000_7.4.18/bin/hex6x"  -o "DSPLAB.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/bin/hex6x"  -o "SSB.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 

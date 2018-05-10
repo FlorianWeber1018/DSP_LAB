@@ -3,9 +3,6 @@
 ################################################################################
 
 # Add inputs and outputs from these tool invocations to the build variables 
-CMD_SRCS += \
-../myMEMlinker.cmd 
-
 EXE_SRCS += \
 ../tuxboot-0.8.2.exe 
 
@@ -17,6 +14,7 @@ S??_SRCS += \
 
 C_SRCS += \
 ./BIOS_configcfg_c.c \
+../Buffer.c \
 ../FirInt.c \
 ../config_AIC23.c \
 ../fastFolding.c \
@@ -25,6 +23,7 @@ C_SRCS += \
 OBJS += \
 ./BIOS_configcfg.obj \
 ./BIOS_configcfg_c.obj \
+./Buffer.obj \
 ./FirInt.obj \
 ./config_AIC23.obj \
 ./fastFolding.obj \
@@ -42,6 +41,7 @@ S??_DEPS += \
 
 C_DEPS += \
 ./BIOS_configcfg_c.d \
+./Buffer.d \
 ./FirInt.d \
 ./config_AIC23.d \
 ./fastFolding.d \
@@ -69,6 +69,7 @@ GEN_FILES__QUOTED += \
 
 C_DEPS__QUOTED += \
 "BIOS_configcfg_c.d" \
+"Buffer.d" \
 "FirInt.d" \
 "config_AIC23.d" \
 "fastFolding.d" \
@@ -80,6 +81,7 @@ S??_DEPS__QUOTED += \
 OBJS__QUOTED += \
 "BIOS_configcfg.obj" \
 "BIOS_configcfg_c.obj" \
+"Buffer.obj" \
 "FirInt.obj" \
 "config_AIC23.obj" \
 "fastFolding.obj" \
@@ -93,6 +95,7 @@ S??_OBJS__QUOTED += \
 
 C_SRCS__QUOTED += \
 "./BIOS_configcfg_c.c" \
+"../Buffer.c" \
 "../FirInt.c" \
 "../config_AIC23.c" \
 "../fastFolding.c" \

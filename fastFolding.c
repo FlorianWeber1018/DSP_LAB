@@ -26,12 +26,12 @@ void processFastFolding(
 ){
   short i=0;
   DSPF_sp_cfftr2_dit((float*)input, (float*)twiddle, N);
-  for(i=0;i<N;i++){
+ /* for(i=0;i<N;i++){
     output[i].real = (input[i].real * impuleResponseSpecFilter[i].real )
                     -(input[i].imag * impuleResponseSpecFilter[i].imag );
     output[i].imag = (input[i].real * impuleResponseSpecFilter[i].imag )
                     -(input[i].imag * impuleResponseSpecFilter[i].real );
-  }
+  }*/
   DSPF_sp_icfftr2_dif((float*)output, (float*)twiddle, N);
   for(i=0;i<N;i++){
     output[i].imag=0;
