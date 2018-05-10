@@ -1,0 +1,4 @@
+SECTIONS
+{
+	.datenpuffer: {} > myMEM
+}
