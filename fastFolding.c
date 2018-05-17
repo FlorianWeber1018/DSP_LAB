@@ -5,17 +5,28 @@
 #include <DSPF_sp_bitrev_cplx.h>
 
 
- ComplexFloat* convertShortBufferToComplexFloatAndInsulateFirstChannel(
+void convertShortBufferToComplexFloatAndInsulateFirstChannel(
     short* input,
-    short N
-  ){
-  ComplexFloat* output = (ComplexFloat*)input;
+	ComplexFloat* output,
+	short N
+)
+{
   short i=0;
   for(i=0;i<N;i++){
+	output[i].real=(float)input[2*i];
     output[i].imag=0;
-    output[i].real=(float)input[i];
   }
-  return output;
+}
+void convertComplexFloatBufferToShort(
+      ComplexFloat* input,
+	  short* output,
+	  short N
+ )
+{
+	int i;
+	for(i=0;i<N;i++){
+		output[2*i]=input[i].real;
+	}
 }
 void processFastFolding(
   ComplexFloat* input,
@@ -25,16 +36,23 @@ void processFastFolding(
   short N
 ){
   short i=0;
+  for(i=0;i<N;i++){
+	  input[i].real /= 32767.f;
+  }
   DSPF_sp_cfftr2_dit((float*)input, (float*)twiddle, N);
- /* for(i=0;i<N;i++){
+  /*for(i=0;i<N;i++){
     output[i].real = (input[i].real * impuleResponseSpecFilter[i].real )
                     -(input[i].imag * impuleResponseSpecFilter[i].imag );
     output[i].imag = (input[i].real * impuleResponseSpecFilter[i].imag )
                     -(input[i].imag * impuleResponseSpecFilter[i].real );
   }*/
-  DSPF_sp_icfftr2_dif((float*)output, (float*)twiddle, N);
+
+  DSPF_sp_icfftr2_dif((float*)input, (float*)twiddle, N);
   for(i=0;i<N;i++){
-    output[i].imag=0;
+  	  input[i].real *= (32767.f / (2.f*(float)N));
+  }
+  for(i=0;i<N;i++){
+    input[i].imag=0;
   }
 }
 void generateSpectrumOnes(

@@ -146,7 +146,7 @@ all: SSB.out
 SSB.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/bin/cl6x" -mv6700 --abi=coffabi -O2 -g --define=c6713 --define=CHIP_6713 --display_error_number --diag_warning=225 --diag_wrap=off -z --stack_size=0x4000 -m"SSB.map" --heap_size=0x800 -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/lib" -i"C:/ti/DSPLIB/c6700/dsplib/lib" -i"C:/ti/C6xCSL/lib_3x" -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include" -i"C:/ti/bios_5_42_02_10/packages/ti/rtdx/lib/c6000" -i"C:/ti/bios_5_42_02_10/packages/ti/bios/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="SSB_linkInfo.xml" --rom_model -o "SSB.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/bin/cl6x" -mv6700 --abi=coffabi -O2 -g --define=c6713 --define=CHIP_6713 --diag_wrap=off --diag_warning=225 --display_error_number -z -m"SSB.map" --stack_size=0x4000 --heap_size=0x800 -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/lib" -i"C:/ti/DSPLIB/c6700/dsplib/lib" -i"C:/ti/C6xCSL/lib_3x" -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include" -i"C:/ti/bios_5_42_02_10/packages/ti/rtdx/lib/c6000" -i"C:/ti/bios_5_42_02_10/packages/ti/bios/lib" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="SSB_linkInfo.xml" --rom_model -o "SSB.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

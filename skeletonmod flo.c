@@ -210,7 +210,7 @@ main()
 {
 	hMcbsp=0;//zuruecksetzen von handle
 
-	generateSpectrumOnes(FIRCoef, twiddleFacC, impuleResponseSpecFilter, 32, N);
+//	generateSpectrumOnes(FIRCoef, twiddleFacC, impuleResponseSpecFilter, 32, N);
 
 
 
@@ -389,8 +389,11 @@ void EDMA_interrupt_service(void)
 void process_ping_SWI(void)
 {
 	//stupidMemCopy(Buffer_in_ping,Buffer_out_ping,BUFFER_LEN);
-  BufferInPingC = convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_ping, 2*N );
-  processFastFolding(BufferInPingC, twiddleFacC, impuleResponseSpecFilter, BufferOutPingC, N );
+  convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_ping, BufferInPingF, N );
+  processFastFolding(BufferInPingF, twiddleFacC, impuleResponseSpecFilter, BufferOutPingC, N );
+  convertComplexFloatBufferToShort(BufferInPingF, Buffer_out_ping, N);
+
+
 }
 /*------------------------------------------------------------------
  * Trennung von PING/PONG
@@ -398,8 +401,10 @@ void process_ping_SWI(void)
 void process_pong_SWI(void)
 {
 	//stupidMemCopy(Buffer_in_pong,Buffer_out_pong,BUFFER_LEN);
-	BufferInPongC = convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_pong, 2*N );
-	processFastFolding(BufferInPongC, twiddleFacC, impuleResponseSpecFilter, BufferOutPongC, N );
+	convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_pong, BufferInPongF, N );
+	processFastFolding(BufferInPongF, twiddleFacC, impuleResponseSpecFilter, BufferOutPongC, N );
+	convertComplexFloatBufferToShort(BufferInPongF, Buffer_out_pong, N);
+//
 }
 
 void SWI_LEDToggle(void)

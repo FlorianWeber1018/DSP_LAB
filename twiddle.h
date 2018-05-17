@@ -11,7 +11,7 @@
 /*  for details on "#pragma DATA_MEM_BANK".                             */
 /* -------------------------------------------------------------------- */
 
-//#pragma DATA_ALIGN(w, 8);  /* Remove this if using DATA_MEM_BANK */
+#pragma DATA_ALIGN(w, 8);  /* Remove this if using DATA_MEM_BANK */
 
 float twiddleFac[2 * 256] =
 {

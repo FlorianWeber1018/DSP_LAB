@@ -9,11 +9,16 @@
   ComplexFloat* output,
   short N
   );
-  ComplexFloat* convertShortBufferToComplexFloatAndInsulateFirstChannel(
+  void convertShortBufferToComplexFloatAndInsulateFirstChannel(
     short* input,
-    short N
+  	ComplexFloat* output,
+  	short N
   );
-
+  void convertComplexFloatBufferToShort(
+      ComplexFloat* input,
+	  short* output,
+	  short N
+  );
   void generateSpectrumOnes(
     float* input,
     ComplexFloat* twiddle,
