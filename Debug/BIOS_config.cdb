@@ -75,7 +75,7 @@ type GlobalStatus {
         prop Visible :: 0
         prop Writable :: 1
     }
-    global DATE :: "Thu May 10 16:24:12 2018" { 
+    global DATE :: "Thu May 17 22:46:52 2018" { 
         prop Type :: "{21455EA3-B96A-11cf-9BFE-0000C0AC14C7}"
         prop Visible :: 0
         prop Writable :: 0
@@ -8748,7 +8748,7 @@ object IRAM :: MEM {
     param iDelUser :: "USER"
     param iDelMsg :: "ok"
     param base :: 0
-    param len :: 225280
+    param len :: 131072
     param iAllocHeap :: 0
     param iHeapSize :: 32768
     param iUserHeapId :: 0
@@ -8883,8 +8883,8 @@ object myMEM :: MEM {
     param iId :: 0
     param iDelUser :: "USER"
     param iDelMsg :: "ok"
-    param base :: 225280
-    param len :: 196608
+    param base :: 131072
+    param len :: 131072
     param iAllocHeap :: 0
     param iHeapSize :: 32768
     param iUserHeapId :: 0

@@ -1,4 +1,4 @@
-
+#define N BUFFER_LEN/2
 /*
 #pragma DATA_SECTION(carryBuffer, ".datenpuffer");
 short carryBuffer[carryBufferLen];
@@ -7,24 +7,32 @@ short carryBuffer1[carryBufferLen];
 #pragma DATA_SECTION(buffer1inPing, ".datenpuffer");
 short buffer1inPing[BUFFER_LEN];
 */
-ComplexFloat* BufferInPingC = (ComplexFloat*) Buffer_in_ping;
-ComplexFloat* BufferInPongC = (ComplexFloat*) Buffer_in_pong;
-ComplexFloat* BufferOutPingC = (ComplexFloat*) Buffer_out_ping;
-ComplexFloat* BufferOutPongC = (ComplexFloat*) Buffer_out_pong;
 
 
 
-#pragma DATA_SECTION(twiddleFac, ".datenpuffer");
+
+#pragma DATA_SECTION(w, ".datenpuffer");
 #include "twiddle.h"
-ComplexFloat* twiddleFacC = (ComplexFloat*) twiddleFac;
+ComplexFloat* twiddleFacC = (ComplexFloat*) w;
+
+
+
 #pragma DATA_SECTION(impuleResponseSpecFilter, ".datenpuffer");
 ComplexFloat impuleResponseSpecFilter[N];
-#pragma DATA_SECTION(BufferInPingF, ".datenpuffer");
-ComplexFloat BufferInPingF[N];
-#pragma DATA_SECTION(BufferInPongF, ".datenpuffer");
-ComplexFloat BufferInPongF[N];
-#pragma DATA_SECTION(impuleResponseFilter, ".datenpuffer");
-float impuleResponseFilter[N];
+
+#pragma DATA_SECTION(BufferBand0In, ".datenpuffer");
+ComplexFloat BufferBand0In[N];
+#pragma DATA_SECTION(BufferBand1In, ".datenpuffer");
+ComplexFloat BufferBand1In[N];
+#pragma DATA_SECTION(BufferBand2In, ".datenpuffer");
+ComplexFloat BufferBand2In[N];
+
+#pragma DATA_SECTION(BufferBand0Out, ".datenpuffer");
+ComplexFloat BufferBand0Out[N];
+#pragma DATA_SECTION(BufferBand1Out, ".datenpuffer");
+ComplexFloat BufferBand1Out[N];
+#pragma DATA_SECTION(BufferBand2Out, ".datenpuffer");
+ComplexFloat BufferBand2Out[N];
 
 
 #pragma DATA_SECTION(FIRCoef, ".datenpuffer");

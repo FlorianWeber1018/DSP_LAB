@@ -13,9 +13,11 @@ ORDERED_OBJS += \
 "./BIOS_configcfg.obj" \
 "./BIOS_configcfg_c.obj" \
 "./FirInt.obj" \
+"./bit_rev.obj" \
 "./config_AIC23.obj" \
 "./fastFolding.obj" \
 "./skeletonmod flo.obj" \
+"../myMEMlinker.cmd" \
 $(GEN_CMDS__FLAG) \
 -l"C:/ti/DSPLIB/c6700/dsplib/lib/dsp67x.lib" \
 -l"C:/ti/DSK6713/c6000/dsk6713/lib/dsk6713bsl.lib" \
@@ -159,9 +161,9 @@ SSB.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_HDRS__QUOTED)$(GEN_MISC_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(BIN_OUTPUTS__QUOTED)$(GEN_CMDS__QUOTED)
-	-$(RM) "BIOS_configcfg_c.d" "FirInt.d" "config_AIC23.d" "fastFolding.d" "skeletonmod flo.d" 
+	-$(RM) "BIOS_configcfg_c.d" "FirInt.d" "bit_rev.d" "config_AIC23.d" "fastFolding.d" "skeletonmod flo.d" 
 	-$(RM) "BIOS_configcfg.d" 
-	-$(RM) "BIOS_configcfg.obj" "BIOS_configcfg_c.obj" "FirInt.obj" "config_AIC23.obj" "fastFolding.obj" "skeletonmod flo.obj" 
+	-$(RM) "BIOS_configcfg.obj" "BIOS_configcfg_c.obj" "FirInt.obj" "bit_rev.obj" "config_AIC23.obj" "fastFolding.obj" "skeletonmod flo.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

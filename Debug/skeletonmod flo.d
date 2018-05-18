@@ -34,6 +34,7 @@ skeletonmod\ flo.obj: C:/ti/bios_5_42_02_10/packages/ti/bios/include/_hook.h
 skeletonmod\ flo.obj: C:/ti/bios_5_42_02_10/packages/ti/bios/include/log.h
 skeletonmod\ flo.obj: C:/ti/bios_5_42_02_10/packages/ti/bios/include/_log.h
 skeletonmod\ flo.obj: C:/ti/bios_5_42_02_10/packages/ti/bios/include/trc.h
+skeletonmod\ flo.obj: ../bit_rev.h
 skeletonmod\ flo.obj: C:/ti/C6xCSL/include/csl.h
 skeletonmod\ flo.obj: C:/ti/C6xCSL/include/csl_chip.h
 skeletonmod\ flo.obj: C:/ti/C6xCSL/include/csl_stdinc.h
@@ -53,15 +54,6 @@ skeletonmod\ flo.obj: C:/ti/C6xCSL/include/csl_edmahal.h
 skeletonmod\ flo.obj: ../config_AIC23.h
 skeletonmod\ flo.obj: C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_led.h
 skeletonmod\ flo.obj: C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_dip.h
-skeletonmod\ flo.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/math.h
-skeletonmod\ flo.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/float.h
-skeletonmod\ flo.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/access.h
-skeletonmod\ flo.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/linkage.h
-skeletonmod\ flo.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/elfnames.h
-skeletonmod\ flo.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/mathf.h
-skeletonmod\ flo.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/unaccess.h
-skeletonmod\ flo.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/mathl.h
-skeletonmod\ flo.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/unaccess.h
 skeletonmod\ flo.obj: ../fastFolding.h
 skeletonmod\ flo.obj: ../Buffer.c
 skeletonmod\ flo.obj: ../twiddle.h
@@ -100,6 +92,7 @@ C:/ti/bios_5_42_02_10/packages/ti/bios/include/_hook.h:
 C:/ti/bios_5_42_02_10/packages/ti/bios/include/log.h: 
 C:/ti/bios_5_42_02_10/packages/ti/bios/include/_log.h: 
 C:/ti/bios_5_42_02_10/packages/ti/bios/include/trc.h: 
+../bit_rev.h: 
 C:/ti/C6xCSL/include/csl.h: 
 C:/ti/C6xCSL/include/csl_chip.h: 
 C:/ti/C6xCSL/include/csl_stdinc.h: 
@@ -119,15 +112,6 @@ C:/ti/C6xCSL/include/csl_edmahal.h:
 ../config_AIC23.h: 
 C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_led.h: 
 C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_dip.h: 
-C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/math.h: 
-C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/float.h: 
-C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/access.h: 
-C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/linkage.h: 
-C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/elfnames.h: 
-C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/mathf.h: 
-C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/unaccess.h: 
-C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/mathl.h: 
-C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include/unaccess.h: 
 ../fastFolding.h: 
 ../Buffer.c: 
 ../twiddle.h: 

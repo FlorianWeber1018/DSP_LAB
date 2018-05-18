@@ -10,7 +10,7 @@
 #include "skeleton.h"
 #include "FirInt.h"
 #include "BIOS_configcfg.h"
-
+#include "bit_rev.h"
 #include <csl.h>
 #include <csl_mcbsp.h>
 #include <csl_irq.h>
@@ -24,34 +24,13 @@
 #include <dsk6713_dip.h>
 
 //SECTION SIN/COS LOOKUP-TABLES BEGIN
-//for sin/cos lookup-tables
-#include "math.h"
+
+
 #include "fastFolding.h"
-#ifndef PI
-#define PI 3.14159
-#endif
 
-#define TOTALLOSS 4
-
-//48kHz/4kHz = 12
-//lcm(4,48)/4 = 12
-//lcm(4,48)/48 = 1
-
-
-//lcm(18,48)/18 = 8
-//lcm(18,48)/48 = 3
-
-//SECTION SIN/COS LOOKUP-TABLES END
-
-//SECTION FIR BEGIN
-
-
-
-
-//SECTION FIR END
 
 //SECTION IN/OUT BUFFER BEGIN
-#define BUFFER_LEN 1024
+#define BUFFER_LEN 2048
 /* Ping-Pong buffers. Place them in the compiler section .datenpuffer */
 /* How do you place the compiler section in the memory?     */
 #pragma DATA_SECTION(Buffer_in_ping, ".datenpuffer");
@@ -210,9 +189,20 @@ main()
 {
 	hMcbsp=0;//zuruecksetzen von handle
 
+
 //	generateSpectrumOnes(FIRCoef, twiddleFacC, impuleResponseSpecFilter, 32, N);
+	int i=0;
+	for(i=0;i<N;i++){
+		if(i<N/64){
+			impuleResponseSpecFilter[i].real=1;
+			impuleResponseSpecFilter[i].imag=0;
+		}else{
+			impuleResponseSpecFilter[i].real=0;
+			impuleResponseSpecFilter[i].imag=0;
+		}
 
-
+	}
+	bit_rev((float*)impuleResponseSpecFilter,N);
 
 
 
@@ -244,7 +234,7 @@ main()
     DSK6713_LED_init();
     DSK6713_DIP_init();
 
-    int i;
+
     for(i=0; i<3; i++){
     	DSK6713_LED_off(i);
     }
@@ -389,9 +379,9 @@ void EDMA_interrupt_service(void)
 void process_ping_SWI(void)
 {
 	//stupidMemCopy(Buffer_in_ping,Buffer_out_ping,BUFFER_LEN);
-  convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_ping, BufferInPingF, N );
-  processFastFolding(BufferInPingF, twiddleFacC, impuleResponseSpecFilter, BufferOutPingC, N );
-  convertComplexFloatBufferToShort(BufferInPingF, Buffer_out_ping, N);
+  convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_ping, BufferBand0In, N );
+  processFastFolding(BufferBand0In, twiddleFacC, impuleResponseSpecFilter, BufferBand0Out, N );
+  convertComplexFloatBufferToShort(BufferBand0Out, Buffer_out_ping, N);
 
 
 }
@@ -401,9 +391,9 @@ void process_ping_SWI(void)
 void process_pong_SWI(void)
 {
 	//stupidMemCopy(Buffer_in_pong,Buffer_out_pong,BUFFER_LEN);
-	convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_pong, BufferInPongF, N );
-	processFastFolding(BufferInPongF, twiddleFacC, impuleResponseSpecFilter, BufferOutPongC, N );
-	convertComplexFloatBufferToShort(BufferInPongF, Buffer_out_pong, N);
+	convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_pong, BufferBand0In, N );
+	processFastFolding(BufferBand0In, twiddleFacC, impuleResponseSpecFilter, BufferBand0Out, N );
+	convertComplexFloatBufferToShort(BufferBand0Out, Buffer_out_pong, N);
 //
 }
 

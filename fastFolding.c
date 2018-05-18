@@ -1,8 +1,10 @@
 #include "skeleton.h"
-
+#include "fastFolding.h"
 #include <DSPF_sp_cfftr2_dit.h>
 #include <DSPF_sp_icfftr2_dif.h>
-#include <DSPF_sp_bitrev_cplx.h>
+#include "bit_rev.h"
+
+
 
 
 void convertShortBufferToComplexFloatAndInsulateFirstChannel(
@@ -35,24 +37,24 @@ void processFastFolding(
   ComplexFloat* output,
   short N
 ){
-  short i=0;
+  short i=0;/*
   for(i=0;i<N;i++){
-	  input[i].real /= 32767.f;
-  }
+    	  input[i].real /= 32767.f;
+    }*/
   DSPF_sp_cfftr2_dit((float*)input, (float*)twiddle, N);
-  /*for(i=0;i<N;i++){
-    output[i].real = (input[i].real * impuleResponseSpecFilter[i].real )
-                    -(input[i].imag * impuleResponseSpecFilter[i].imag );
-    output[i].imag = (input[i].real * impuleResponseSpecFilter[i].imag )
-                    -(input[i].imag * impuleResponseSpecFilter[i].real );
-  }*/
 
-  DSPF_sp_icfftr2_dif((float*)input, (float*)twiddle, N);
   for(i=0;i<N;i++){
-  	  input[i].real *= (32767.f / (2.f*(float)N));
+    output[i].real = (input[i].real * impuleResponseSpecFilter[i].real ) - (input[i].imag * impuleResponseSpecFilter[i].imag );
+    output[i].imag = (input[i].real * impuleResponseSpecFilter[i].imag ) + (input[i].imag * impuleResponseSpecFilter[i].real );
+  }
+
+  DSPF_sp_icfftr2_dif((float*)output, (float*)twiddle, N);
+
+  for(i=0;i<N;i++){
+  	  output[i].real /= (float)N;
   }
   for(i=0;i<N;i++){
-    input[i].imag=0;
+    output[i].imag=0;
   }
 }
 void generateSpectrumOnes(
@@ -67,10 +69,11 @@ void generateSpectrumOnes(
     if(i>=Nin){
       output[i].real=0;
     }else{
-      output[i].real=input[i];
+      output[i].real=1;
     }
     output[i].imag=0;
   }
 
-  DSPF_sp_cfftr2_dit((float*)input, (float*)twiddle, Nout);
+  DSPF_sp_cfftr2_dit((float*)output, (float*)twiddle, Nout);
+
 }

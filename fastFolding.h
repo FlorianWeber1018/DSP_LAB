@@ -26,6 +26,6 @@
     short Nin,
     short Nout
   );
-  void gen_w_r2(ComplexFloat* twiddle, short N);
-  void bit_rev(ComplexFloat* target, short N);
+
+
 #endif

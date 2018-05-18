@@ -127,8 +127,8 @@ _GBL_CACHE = GBL_CACHE;
 -stack 0x4000
 MEMORY {
    SDRAM       : origin = 0x80000000,  len = 0x6e000
-   IRAM        : origin = 0x0,         len = 0x37000
-   myMEM       : origin = 0x37000,     len = 0x30000
+   IRAM        : origin = 0x0,         len = 0x20000
+   myMEM       : origin = 0x20000,     len = 0x20000
 }
 /* MODULE CLK */
 SECTIONS {
