@@ -28,9 +28,12 @@
 
 #include "fastFolding.h"
 
-
+/**
+ * Buffer for filters in external file
+ */
+#include "Buffer.c"
 //SECTION IN/OUT BUFFER BEGIN
-#define BUFFER_LEN 2048
+
 /* Ping-Pong buffers. Place them in the compiler section .datenpuffer */
 /* How do you place the compiler section in the memory?     */
 #pragma DATA_SECTION(Buffer_in_ping, ".datenpuffer");
@@ -42,10 +45,7 @@ short Buffer_out_ping[BUFFER_LEN];
 #pragma DATA_SECTION(Buffer_out_pong, ".datenpuffer");
 short Buffer_out_pong[BUFFER_LEN];
 //SECTION IN/OUT BUFFER END
-/**
- * Buffer for filters in external file
- */
-#include "Buffer.c"
+
 //Configuration for McBSP1 (data-interface)		---- pdf: csl_spru401j
 MCBSP_Config datainterface_config = {
 		/* McBSP Control Register */
@@ -190,10 +190,11 @@ main()
 	hMcbsp=0;//zuruecksetzen von handle
 
 
-//	generateSpectrumOnes(FIRCoef, twiddleFacC, impuleResponseSpecFilter, 32, N);
+	//generateSpectrumOnes(FIRCoef, twiddleFacC, impuleResponseSpecFilter, 32, Nfft);
 	int i=0;
-	for(i=0;i<N;i++){
-		if(i<N/64){
+	for(i=0;i<Nfft;i++){
+		int j = i;//-(Nfft/2);
+		if(abs(j) < (Nfft/64)){
 			impuleResponseSpecFilter[i].real=1;
 			impuleResponseSpecFilter[i].imag=0;
 		}else{
@@ -202,7 +203,7 @@ main()
 		}
 
 	}
-	bit_rev((float*)impuleResponseSpecFilter,N);
+	bit_rev((float*)impuleResponseSpecFilter,Nfft);
 
 
 
@@ -378,10 +379,22 @@ void EDMA_interrupt_service(void)
 
 void process_ping_SWI(void)
 {
+	fastConvolutionOverlapAdd(
+		Buffer_in_ping,
+		Buffer_out_ping,
+		impuleResponseSpecFilter,
+		carryBuffer,
+		twiddleFacC,
+		tempBuffer0,
+		tempBuffer1,
+		N,
+		Nfft,
+		Ncarry
+	);
 	//stupidMemCopy(Buffer_in_ping,Buffer_out_ping,BUFFER_LEN);
-  convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_ping, BufferBand0In, N );
-  processFastFolding(BufferBand0In, twiddleFacC, impuleResponseSpecFilter, BufferBand0Out, N );
-  convertComplexFloatBufferToShort(BufferBand0Out, Buffer_out_ping, N);
+	//convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_ping, BufferBand0In, N );
+	//processFastFolding(BufferBand0In, twiddleFacC, impuleResponseSpecFilter, BufferBand0Out, N );
+	//convertComplexFloatBufferToShort(BufferBand0Out, Buffer_out_ping, N);
 
 
 }
@@ -390,10 +403,22 @@ void process_ping_SWI(void)
  * -----------------------------------------------------------------*/
 void process_pong_SWI(void)
 {
+	fastConvolutionOverlapAdd(
+			Buffer_in_pong,
+			Buffer_out_pong,
+			impuleResponseSpecFilter,
+			carryBuffer,
+			twiddleFacC,
+			tempBuffer0,
+			tempBuffer1,
+			N,
+			Nfft,
+			Ncarry
+	);
 	//stupidMemCopy(Buffer_in_pong,Buffer_out_pong,BUFFER_LEN);
-	convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_pong, BufferBand0In, N );
-	processFastFolding(BufferBand0In, twiddleFacC, impuleResponseSpecFilter, BufferBand0Out, N );
-	convertComplexFloatBufferToShort(BufferBand0Out, Buffer_out_pong, N);
+	//convertShortBufferToComplexFloatWithZeroPaddingAndInsulateFirstChannel( Buffer_in_pong, BufferIn, N ,Nfft);
+
+	//convertComplexFloatBufferToShort(BufferBand0Out, Buffer_out_pong, N);
 //
 }
 

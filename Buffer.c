@@ -1,12 +1,9 @@
-#define N BUFFER_LEN/2
-/*
-#pragma DATA_SECTION(carryBuffer, ".datenpuffer");
-short carryBuffer[carryBufferLen];
-#pragma DATA_SECTION(carryBuffer1, ".datenpuffer");
-short carryBuffer1[carryBufferLen];
-#pragma DATA_SECTION(buffer1inPing, ".datenpuffer");
-short buffer1inPing[BUFFER_LEN];
-*/
+#define Nfft 1024						//Length of the processed FFT should be k by the Power of 2; to change anything of the buffers only edit this line;
+#define firCoefN 32						//Length of the impulse response of the Filter
+#define N (Nfft - firCoefN + 1)		//length of the signal block from input/to output in Complex Float
+#define BUFFER_LEN (2 * N)					//length of the signal block from input/to output in float
+#define Ncarry (firCoefN - 1)			//length of the carryBuffer
+
 
 
 
@@ -18,8 +15,18 @@ ComplexFloat* twiddleFacC = (ComplexFloat*) w;
 
 
 #pragma DATA_SECTION(impuleResponseSpecFilter, ".datenpuffer");
-ComplexFloat impuleResponseSpecFilter[N];
+ComplexFloat impuleResponseSpecFilter[Nfft];
 
+#pragma DATA_SECTION(tempBuffer0, ".datenpuffer");
+ComplexFloat tempBuffer0[Nfft];
+
+#pragma DATA_SECTION(tempBuffer1, ".datenpuffer");
+ComplexFloat tempBuffer1[Nfft];
+
+#pragma DATA_SECTION(carryBuffer, ".datenpuffer");
+ComplexFloat carryBuffer[Ncarry];
+
+/*
 #pragma DATA_SECTION(BufferBand0In, ".datenpuffer");
 ComplexFloat BufferBand0In[N];
 #pragma DATA_SECTION(BufferBand1In, ".datenpuffer");
@@ -34,7 +41,7 @@ ComplexFloat BufferBand1Out[N];
 #pragma DATA_SECTION(BufferBand2Out, ".datenpuffer");
 ComplexFloat BufferBand2Out[N];
 
-
+*/
 #pragma DATA_SECTION(FIRCoef, ".datenpuffer");
 float FIRCoef[32] = {
     0.03001603397175882000,
