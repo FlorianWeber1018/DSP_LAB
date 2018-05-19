@@ -57,6 +57,14 @@ skeletonmod\ flo.obj: C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_dip.h
 skeletonmod\ flo.obj: ../fastFolding.h
 skeletonmod\ flo.obj: ../Buffer.c
 skeletonmod\ flo.obj: ../twiddle.h
+skeletonmod\ flo.obj: ../filters/g00.h
+skeletonmod\ flo.obj: ../filters/g01.h
+skeletonmod\ flo.obj: ../filters/g10.h
+skeletonmod\ flo.obj: ../filters/g11.h
+skeletonmod\ flo.obj: ../filters/h00.h
+skeletonmod\ flo.obj: ../filters/h01.h
+skeletonmod\ flo.obj: ../filters/h10.h
+skeletonmod\ flo.obj: ../filters/h11.h
 
 ../skeletonmod\ flo.c: 
 ../skeleton.h: 
@@ -115,3 +123,11 @@ C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_dip.h:
 ../fastFolding.h: 
 ../Buffer.c: 
 ../twiddle.h: 
+../filters/g00.h: 
+../filters/g01.h: 
+../filters/g10.h: 
+../filters/g11.h: 
+../filters/h00.h: 
+../filters/h01.h: 
+../filters/h10.h: 
+../filters/h11.h: 

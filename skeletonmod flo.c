@@ -188,13 +188,16 @@ MCBSP_Handle hMcbsp;  // erstellen eines McBSP, handle ist eine Struktur
 main()
 {
 	hMcbsp=0;//zuruecksetzen von handle
+	void buildSpecsOfFilters();
 
 
-	//generateSpectrumOnes(FIRCoef, twiddleFacC, impuleResponseSpecFilter, 32, Nfft);
+
 	int i=0;
+
+	/*
 	for(i=0;i<Nfft;i++){
 		int j = i;//-(Nfft/2);
-		if(abs(j) < (Nfft/64)){
+		if(abs(j) < (firCoefN)){
 			impuleResponseSpecFilter[i].real=1;
 			impuleResponseSpecFilter[i].imag=0;
 		}else{
@@ -205,7 +208,7 @@ main()
 	}
 	bit_rev((float*)impuleResponseSpecFilter,Nfft);
 
-
+	*/
 
 	CSL_init();
 
@@ -382,7 +385,7 @@ void process_ping_SWI(void)
 	fastConvolutionOverlapAdd(
 		Buffer_in_ping,
 		Buffer_out_ping,
-		impuleResponseSpecFilter,
+		h00Spec,
 		carryBuffer,
 		twiddleFacC,
 		tempBuffer0,
@@ -406,7 +409,7 @@ void process_pong_SWI(void)
 	fastConvolutionOverlapAdd(
 			Buffer_in_pong,
 			Buffer_out_pong,
-			impuleResponseSpecFilter,
+			h00Spec,
 			carryBuffer,
 			twiddleFacC,
 			tempBuffer0,
@@ -439,4 +442,14 @@ void tsk_led_toggle(void)
 
 		DSK6713_LED_toggle(1);
 	}
+}
+void buildSpecsOfFilters(){
+	generateSpectrumOnes(h00, twiddleFacC, h00Spec, firCoefN, Nfft);
+	generateSpectrumOnes(h01, twiddleFacC, h01Spec, firCoefN, Nfft);
+	generateSpectrumOnes(h10, twiddleFacC, h10Spec, firCoefN, Nfft);
+	generateSpectrumOnes(h11, twiddleFacC, h11Spec, firCoefN, Nfft);
+	generateSpectrumOnes(g00, twiddleFacC, g00Spec, firCoefN, Nfft);
+	generateSpectrumOnes(g01, twiddleFacC, g01Spec, firCoefN, Nfft);
+	generateSpectrumOnes(g10, twiddleFacC, g10Spec, firCoefN, Nfft);
+	generateSpectrumOnes(g11, twiddleFacC, g11Spec, firCoefN, Nfft);
 }
