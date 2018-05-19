@@ -188,8 +188,7 @@ MCBSP_Handle hMcbsp;  // erstellen eines McBSP, handle ist eine Struktur
 main()
 {
 	hMcbsp=0;//zuruecksetzen von handle
-	void buildSpecsOfFilters();
-
+	buildSpecsOfFilters();
 
 
 	int i=0;

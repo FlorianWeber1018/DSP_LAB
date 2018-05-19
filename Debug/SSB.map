@@ -1,7 +1,7 @@
 ******************************************************************************
                TMS320C6x Linker PC v7.4.16                     
 ******************************************************************************
->> Linked Sat May 19 14:12:41 2018
+>> Linked Sat May 19 14:31:53 2018
 
 OUTPUT FILE NAME:   <SSB.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00013b80
@@ -868,7 +868,7 @@ ffffffff   RTDX_DATAMEMSEG
 00009f00   _EDMA_disableChannel
 00009f60   _EDMA_enableChannel
 00009720   _EDMA_intAlloc
-00006340   _EDMA_interrupt_service
+00006350   _EDMA_interrupt_service
 00007ea0   _EDMA_open
 00009380   _EDMA_reset
 0000e240   _FXN_F_nop
@@ -1032,7 +1032,7 @@ ffffffff   _IRAM
 00014b0c   _SWI_D_lock
 00014b18   _SWI_D_rdybeg
 00014afc   _SWI_D_runaddr
-00006664   _SWI_LEDToggle
+0000666c   _SWI_LEDToggle
 00014afc   _SWI_data
 0000ad30   _SWI_post
 00014af0   _SYS
@@ -1133,14 +1133,14 @@ ffffffff   ___c_args__
 0001379c   __unlock
 00007b84   _abs
 00009b00   _atexit
-000066d4   _buildSpecsOfFilters
+000066dc   _buildSpecsOfFilters
 00013b80   _c_int00
 00009220   _call_dtors
 00027000   _carryBuffer
 00013668   _configEDMARcv
 00013680   _configEDMAXmt
-00005b9c   _config_EDMA
-000062c4   _config_interrupts
+00005ba8   _config_EDMA
+000062d4   _config_interrupts
 00013648   _datainterface_config
 000137a0   _dtors
 000078a8   _fastConvolutionOverlapAdd
@@ -1173,8 +1173,8 @@ ffffffff   ___c_args__
 000083a0   _memcpy
 000154e0   _myLOG
 ffffffff   _myMEM
-00006520   _process_ping_SWI
-000065c4   _process_pong_SWI
+0000652c   _process_ping_SWI
+000065cc   _process_pong_SWI
 00014c80   _rtdxNullChanCnt
 00014c84   _rtdxNullFuncCnt
 000140f0   _rtdx_buffer_state
@@ -1187,7 +1187,7 @@ ffffffff   _myMEM
 00014bf0   _tccXmtPong
 00025000   _tempBuffer0
 00026000   _tempBuffer1
-00006690   _tsk_led_toggle
+00006698   _tsk_led_toggle
 00014be0   _twiddleFacC
 00020000   _w
 000090a0   _wait500nS
@@ -1499,14 +1499,14 @@ address    name
 00005860   .text
 00005860   ___text__
 000059a8   _main
-00005b9c   _config_EDMA
-000062c4   _config_interrupts
-00006340   _EDMA_interrupt_service
-00006520   _process_ping_SWI
-000065c4   _process_pong_SWI
-00006664   _SWI_LEDToggle
-00006690   _tsk_led_toggle
-000066d4   _buildSpecsOfFilters
+00005ba8   _config_EDMA
+000062d4   _config_interrupts
+00006350   _EDMA_interrupt_service
+0000652c   _process_ping_SWI
+000065cc   _process_pong_SWI
+0000666c   _SWI_LEDToggle
+00006698   _tsk_led_toggle
+000066dc   _buildSpecsOfFilters
 00006880   _DSPF_sp_icfftr2_dif
 00006ec0   _DSPF_sp_cfftr2_dit
 000073ec   _DSK6713_init

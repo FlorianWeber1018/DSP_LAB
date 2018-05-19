@@ -112,7 +112,7 @@ void fastConvolutionOverlapAdd(
 		carryBuffer[i].real = tempBuffer1[nFFT- nCarry + i].real;
 	}
 	for(i = 0; i < nIO; i++){					//put the output data to the output Buffer
-		output[2 * i] = (short)(tempBuffer1[i].real * 32767 / (2*nFFT));
+		output[2 * i] = (short)(tempBuffer1[i].real * 32767 / (3*nFFT));
 		output[2*i + 1] = 0;
 	}
 }
