@@ -1,4 +1,4 @@
-#define Nfft 512						//Length of the processed FFT should be k by the Power of 2; to change anything of the buffers only edit this line;
+#define Nfft 128						//Length of the processed FFT should be k by the Power of 2 and minimum 128; to change anything of the buffers only edit this line;
 #define firCoefN (16)						//Length of the impulse response of the Filter (wrost case: NCarry1)
 #define N (Nfft - firCoefN*4 + 4)		//length of the signal block from input/to output in Complex Float
 #define BUFFER_LEN (2 * N)					//length of the signal block from input/to output in float
@@ -6,9 +6,12 @@
 #define Ncarry1 (firCoefN*4 - 4)			//length of the carryBuffer1
 #define Ncarry2 (firCoefN*2 - 2)			//length of the carryBuffer2
 
-#define g0 2.f
-#define g1 2.f
-#define g2 2.f
+
+
+
+#define g0 3.f
+#define g1 0.f
+#define g2 0.f
 
 #pragma DATA_SECTION(w, ".datenpuffer");
 #include "twiddle.h"

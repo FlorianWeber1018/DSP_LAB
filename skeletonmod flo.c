@@ -371,7 +371,7 @@ void process_ping_SWI(void)
 	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer0, resultingSpec0, carryBuffer0, twiddleFacC, N, Nfft, Ncarry0);
 	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer1, resultingSpec1, carryBuffer1, twiddleFacC, N, Nfft, Ncarry1);
 	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer2, resultingSpec2, carryBuffer2, twiddleFacC, N, Nfft, Ncarry2);
-	dotSum3(outBuffer0, outBuffer1, outBuffer2, Buffer_out_ping, g0 * ((32767)/(Nfft * 3 * 10)), g1 * ((32767)/(Nfft * 3 * 10 )), g2 * ((32767)/(Nfft * 3 * 10)), N);
+	dotSum3(outBuffer0, outBuffer1, outBuffer2, Buffer_out_ping, g0 * ((32767)/(Nfft * 3)), g1 * ((32767)/(Nfft * 3)), g2 * ((32767)/(Nfft * 3)), N);
 	/*
 	int i=0;
 	for(i=0;i<N;i++){
@@ -388,7 +388,7 @@ void process_pong_SWI(void)
 	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer0, resultingSpec0, carryBuffer0, twiddleFacC, N, Nfft, Ncarry0);
 	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer1, resultingSpec1, carryBuffer1, twiddleFacC, N, Nfft, Ncarry1);
 	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer2, resultingSpec2, carryBuffer2, twiddleFacC, N, Nfft, Ncarry2);
-	dotSum3(outBuffer0, outBuffer1, outBuffer2, Buffer_out_pong ,g0*((32767)/(Nfft * 3 * 10)) ,g1*((32767)/(Nfft * 3 * 10)) ,g2*((32767)/(Nfft * 3 * 10)) , N);
+	dotSum3(outBuffer0, outBuffer1, outBuffer2, Buffer_out_pong ,g0*((32767)/(Nfft * 3)) ,g1*((32767)/(Nfft * 3)) ,g2*((32767)/(Nfft * 3)) , N);
 	/*
 	int i=0;
 	for(i=0;i<N;i++){
