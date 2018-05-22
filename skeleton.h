@@ -22,5 +22,5 @@ extern void SWI_LEDToggle(void);
 extern void tsk_led_toggle(void);
 
 void buildSpecsOfFilters();
-
+void genResultingSpecs();
 #endif /*SKELETON_H*/

@@ -1,31 +1,40 @@
 #define Nfft 512						//Length of the processed FFT should be k by the Power of 2; to change anything of the buffers only edit this line;
-#define firCoefN (16)						//Length of the impulse response of the Filter
-#define N (Nfft - firCoefN + 1)		//length of the signal block from input/to output in Complex Float
+#define firCoefN (16)						//Length of the impulse response of the Filter (wrost case: NCarry1)
+#define N (Nfft - firCoefN*4 + 4)		//length of the signal block from input/to output in Complex Float
 #define BUFFER_LEN (2 * N)					//length of the signal block from input/to output in float
-#define Ncarry (firCoefN - 1)			//length of the carryBuffer
+#define Ncarry0 (firCoefN*2 - 2)			//length of the carryBuffer0
+#define Ncarry1 (firCoefN*4 - 4)			//length of the carryBuffer1
+#define Ncarry2 (firCoefN*2 - 2)			//length of the carryBuffer2
 
-
-
-
+#define g0 2.f
+#define g1 2.f
+#define g2 2.f
 
 #pragma DATA_SECTION(w, ".datenpuffer");
 #include "twiddle.h"
 ComplexFloat* twiddleFacC = (ComplexFloat*) w;
 
 
+#pragma DATA_SECTION(BufferInputSpec, ".datenpuffer");
+ComplexFloat BufferInputSpec[Nfft];
 
-#pragma DATA_SECTION(impuleResponseSpecFilter, ".datenpuffer");
-ComplexFloat impuleResponseSpecFilter[Nfft];
+#pragma DATA_SECTION(outBuffer0, ".datenpuffer");
+ComplexFloat outBuffer0[Nfft];
+#pragma DATA_SECTION(outBuffer1, ".datenpuffer");
+ComplexFloat outBuffer1[Nfft];
+#pragma DATA_SECTION(outBuffer2, ".datenpuffer");
+ComplexFloat outBuffer2[Nfft];
 
-#pragma DATA_SECTION(tempBuffer0, ".datenpuffer");
-ComplexFloat tempBuffer0[Nfft];
+#pragma DATA_SECTION(outBufferSum, ".datenpuffer");
+ComplexFloat outBufferSum[N];
 
-#pragma DATA_SECTION(tempBuffer1, ".datenpuffer");
-ComplexFloat tempBuffer1[Nfft];
 
-#pragma DATA_SECTION(carryBuffer, ".datenpuffer");
-ComplexFloat carryBuffer[Ncarry];
-
+#pragma DATA_SECTION(carryBuffer0, ".datenpuffer");
+ComplexFloat carryBuffer0[Ncarry0];
+#pragma DATA_SECTION(carryBuffer1, ".datenpuffer");
+ComplexFloat carryBuffer1[Ncarry1];
+#pragma DATA_SECTION(carryBuffer2, ".datenpuffer");
+ComplexFloat carryBuffer2[Ncarry2];
 
 #pragma DATA_SECTION(g00, ".datenpuffer");
 #include "filters/g00.h"
@@ -59,3 +68,12 @@ ComplexFloat h01Spec[Nfft];
 ComplexFloat h10Spec[Nfft];
 #pragma DATA_SECTION(h11Spec, ".datenpuffer");
 ComplexFloat h11Spec[Nfft];
+
+
+#pragma DATA_SECTION(resultingSpec0, ".datenpuffer");
+ComplexFloat resultingSpec0[Nfft];
+#pragma DATA_SECTION(resultingSpec1, ".datenpuffer");
+ComplexFloat resultingSpec1[Nfft];
+#pragma DATA_SECTION(resultingSpec2, ".datenpuffer");
+ComplexFloat resultingSpec2[Nfft];
+

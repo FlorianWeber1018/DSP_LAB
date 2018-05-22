@@ -189,25 +189,11 @@ main()
 {
 	hMcbsp=0;//zuruecksetzen von handle
 	buildSpecsOfFilters();
-
+	genResultingSpecs();
 
 	int i=0;
 
-	/*
-	for(i=0;i<Nfft;i++){
-		int j = i;//-(Nfft/2);
-		if(abs(j) < (firCoefN)){
-			impuleResponseSpecFilter[i].real=1;
-			impuleResponseSpecFilter[i].imag=0;
-		}else{
-			impuleResponseSpecFilter[i].real=0;
-			impuleResponseSpecFilter[i].imag=0;
-		}
 
-	}
-	bit_rev((float*)impuleResponseSpecFilter,Nfft);
-
-	*/
 
 	CSL_init();
 
@@ -381,47 +367,34 @@ void EDMA_interrupt_service(void)
 
 void process_ping_SWI(void)
 {
-	fastConvolutionOverlapAdd(
-		Buffer_in_ping,
-		Buffer_out_ping,
-		h00Spec,
-		carryBuffer,
-		twiddleFacC,
-		tempBuffer0,
-		tempBuffer1,
-		N,
-		Nfft,
-		Ncarry
-	);
-	//stupidMemCopy(Buffer_in_ping,Buffer_out_ping,BUFFER_LEN);
-	//convertShortBufferToComplexFloatAndInsulateFirstChannel( Buffer_in_ping, BufferBand0In, N );
-	//processFastFolding(BufferBand0In, twiddleFacC, impuleResponseSpecFilter, BufferBand0Out, N );
-	//convertComplexFloatBufferToShort(BufferBand0Out, Buffer_out_ping, N);
-
-
+	convertToComplexFloatAndGenerateSpectrum( Buffer_in_ping, twiddleFacC, BufferInputSpec, N, Nfft );
+	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer0, resultingSpec0, carryBuffer0, twiddleFacC, N, Nfft, Ncarry0);
+	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer1, resultingSpec1, carryBuffer1, twiddleFacC, N, Nfft, Ncarry1);
+	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer2, resultingSpec2, carryBuffer2, twiddleFacC, N, Nfft, Ncarry2);
+	dotSum3(outBuffer0, outBuffer1, outBuffer2, Buffer_out_ping, g0 * ((32767)/(Nfft * 3 * 10)), g1 * ((32767)/(Nfft * 3 * 10 )), g2 * ((32767)/(Nfft * 3 * 10)), N);
+	/*
+	int i=0;
+	for(i=0;i<N;i++){
+		Buffer_out_ping[2*i] = outBuffer2[i].real*32767/Nfft/4;
+	}
+	*/
 }
 /*------------------------------------------------------------------
  * Trennung von PING/PONG
  * -----------------------------------------------------------------*/
 void process_pong_SWI(void)
 {
-	fastConvolutionOverlapAdd(
-			Buffer_in_pong,
-			Buffer_out_pong,
-			h00Spec,
-			carryBuffer,
-			twiddleFacC,
-			tempBuffer0,
-			tempBuffer1,
-			N,
-			Nfft,
-			Ncarry
-	);
-	//stupidMemCopy(Buffer_in_pong,Buffer_out_pong,BUFFER_LEN);
-	//convertShortBufferToComplexFloatWithZeroPaddingAndInsulateFirstChannel( Buffer_in_pong, BufferIn, N ,Nfft);
-
-	//convertComplexFloatBufferToShort(BufferBand0Out, Buffer_out_pong, N);
-//
+	convertToComplexFloatAndGenerateSpectrum( Buffer_in_pong, twiddleFacC, BufferInputSpec, N, Nfft );
+	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer0, resultingSpec0, carryBuffer0, twiddleFacC, N, Nfft, Ncarry0);
+	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer1, resultingSpec1, carryBuffer1, twiddleFacC, N, Nfft, Ncarry1);
+	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer2, resultingSpec2, carryBuffer2, twiddleFacC, N, Nfft, Ncarry2);
+	dotSum3(outBuffer0, outBuffer1, outBuffer2, Buffer_out_pong ,g0*((32767)/(Nfft * 3 * 10)) ,g1*((32767)/(Nfft * 3 * 10)) ,g2*((32767)/(Nfft * 3 * 10)) , N);
+	/*
+	int i=0;
+	for(i=0;i<N;i++){
+		Buffer_out_pong[2*i] = outBuffer2[i].real*32767/Nfft/4;
+	}
+	*/
 }
 
 void SWI_LEDToggle(void)
@@ -451,4 +424,12 @@ void buildSpecsOfFilters(){
 	generateSpectrumOnes(g01, twiddleFacC, g01Spec, firCoefN, Nfft);
 	generateSpectrumOnes(g10, twiddleFacC, g10Spec, firCoefN, Nfft);
 	generateSpectrumOnes(g11, twiddleFacC, g11Spec, firCoefN, Nfft);
+}
+
+void genResultingSpecs(){
+	dotProductC(h10Spec,g10Spec,resultingSpec0,Nfft);
+	dotProductC(h11Spec,g11Spec,resultingSpec2,Nfft);
+	dotProductC(resultingSpec0,resultingSpec2,resultingSpec1,Nfft);
+	dotProductC(h00Spec,g00Spec,resultingSpec0,Nfft);
+	dotProductC(h01Spec,g01Spec,resultingSpec2,Nfft);
 }
