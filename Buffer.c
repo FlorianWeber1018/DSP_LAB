@@ -6,9 +6,9 @@
 
 
 
-#define gain0 0.f
-#define gain1 0.f
-#define gain2 1.f
+#define gain0 1.f
+#define gain1 1.f
+#define gain2 4.f
 
 
 

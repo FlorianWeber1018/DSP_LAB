@@ -449,7 +449,7 @@ void process(
 
 	processStereoFir(Bcd1d,Bca01,N,Ccd1d,g01,coefN,1,true); //first stage highpass branch right
 
-	//sum(Bca01,Bca11,N);	//sum ; result in Bca01
+	sum(Bca01,Bca11,N);	//sum ; result in Bca01
 
 	convertToShort(Bca01, (StereoShort*)BufferOut, N);
 }
