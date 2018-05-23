@@ -12,13 +12,16 @@ GEN_CMDS__FLAG := -l"./BIOS_configcfg.cmd"
 ORDERED_OBJS += \
 "./BIOS_configcfg.obj" \
 "./BIOS_configcfg_c.obj" \
-"./Buffer.obj" \
 "./FirInt.obj" \
+"./bit_rev.obj" \
 "./config_AIC23.obj" \
 "./fastFolding.obj" \
 "./skeletonmod flo.obj" \
+"../myMEMlinker.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
+-l"C:/ti/DSK6713/c6000/dsk6713/lib/dsk6713bsl.lib" \
+-l"C:/ti/C6xCSL/lib_3x/csl6713.lib" \
 
 -include ../makefile.init
 
@@ -144,7 +147,7 @@ all: SSB.out
 SSB.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/bin/cl6x" -mv6700 --abi=coffabi -O2 --define=c6713 --display_error_number --diag_warning=225 --diag_wrap=off -z --stack_size=0x800 -m"SSB.map" --heap_size=0x800 -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/lib" -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include" -i"C:/ti/bios_5_42_02_10/packages/ti/rtdx/lib/c6000" -i"C:/ti/bios_5_42_02_10/packages/ti/bios/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="SSB_linkInfo.xml" --rom_model -o "SSB.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/bin/cl6x" -mv6700 --abi=coffabi -O3 --symdebug:none --define=c6713 --define=CHIP_6713 --diag_wrap=off --diag_warning=225 --display_error_number -z -m"SSB.map" --stack_size=0x800 --heap_size=0x800 -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/lib" -i"C:/ti/C6xCSL/lib_3x" -i"C:/ti/DSK6713/c6000/dsk6713/lib" -i"C:/ti/DSPLIB/c6700/dsplib/lib" -i"C:/ti/ccsv6/tools/compiler/c6000_7.4.16/include" -i"C:/ti/bios_5_42_02_10/packages/ti/rtdx/lib/c6000" -i"C:/ti/bios_5_42_02_10/packages/ti/bios/lib" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="SSB_linkInfo.xml" --rom_model -o "SSB.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -157,9 +160,9 @@ SSB.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_HDRS__QUOTED)$(GEN_MISC_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(BIN_OUTPUTS__QUOTED)$(GEN_CMDS__QUOTED)
-	-$(RM) "BIOS_configcfg_c.d" "Buffer.d" "FirInt.d" "config_AIC23.d" "fastFolding.d" "skeletonmod flo.d" 
+	-$(RM) "BIOS_configcfg_c.d" "FirInt.d" "bit_rev.d" "config_AIC23.d" "fastFolding.d" "skeletonmod flo.d" 
 	-$(RM) "BIOS_configcfg.d" 
-	-$(RM) "BIOS_configcfg.obj" "BIOS_configcfg_c.obj" "Buffer.obj" "FirInt.obj" "config_AIC23.obj" "fastFolding.obj" "skeletonmod flo.obj" 
+	-$(RM) "BIOS_configcfg.obj" "BIOS_configcfg_c.obj" "FirInt.obj" "bit_rev.obj" "config_AIC23.obj" "fastFolding.obj" "skeletonmod flo.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

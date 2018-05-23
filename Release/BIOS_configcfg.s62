@@ -5,7 +5,7 @@
 ;; INPUT BIOS_config.cdb
 
 ;; CONFIGURATION/VERSION INFORMATION
-	.asg "Thu May 10 15:11:33 2018", VERS$DATE
+	.asg "Wed May 23 15:58:55 2018", VERS$DATE
 
 ;; PROLOGUE
 	.include BIOS_configcfg.h62
@@ -527,7 +527,7 @@ HOOK$SETOF          .set 00H
 ;;
 ;; MEM_Obj IRAM (len, iAllocHeap, iSegZero, iHeapId)
 	.global IRAM
-	.asg 037000H, _len
+	.asg 020000H, _len
 	.asg 00H, _iAllocHeap
 	.asg SDRAM, _iSegZero
 	.asg segment_name, _iHeapId
@@ -538,7 +538,7 @@ HOOK$SETOF          .set 00H
 ;;
 ;; MEM_Obj myMEM (len, iAllocHeap, iSegZero, iHeapId)
 	.global myMEM
-	.asg 030000H, _len
+	.asg 020000H, _len
 	.asg 00H, _iAllocHeap
 	.asg SDRAM, _iSegZero
 	.asg segment_name, _iHeapId

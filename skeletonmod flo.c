@@ -10,7 +10,7 @@
 #include "skeleton.h"
 #include "FirInt.h"
 #include "BIOS_configcfg.h"
-#include "bit_rev.h"
+
 #include <csl.h>
 #include <csl_mcbsp.h>
 #include <csl_irq.h>
@@ -26,7 +26,7 @@
 //SECTION SIN/COS LOOKUP-TABLES BEGIN
 
 
-#include "fastFolding.h"
+
 
 /**
  * Buffer for filters in external file
@@ -188,9 +188,10 @@ MCBSP_Handle hMcbsp;  // erstellen eines McBSP, handle ist eine Struktur
 main()
 {
 	hMcbsp=0;//zuruecksetzen von handle
-	buildSpecsOfFilters();
-	genResultingSpecs();
+	//buildSpecsOfFilters();
+	//genResultingSpecs();
 
+	initBuffers();
 	int i=0;
 
 
@@ -367,34 +368,14 @@ void EDMA_interrupt_service(void)
 
 void process_ping_SWI(void)
 {
-	convertToComplexFloatAndGenerateSpectrum( Buffer_in_ping, twiddleFacC, BufferInputSpec, N, Nfft );
-	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer0, resultingSpec0, carryBuffer0, twiddleFacC, N, Nfft, Ncarry0);
-	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer1, resultingSpec1, carryBuffer1, twiddleFacC, N, Nfft, Ncarry1);
-	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer2, resultingSpec2, carryBuffer2, twiddleFacC, N, Nfft, Ncarry2);
-	dotSum3(outBuffer0, outBuffer1, outBuffer2, Buffer_out_ping, g0 * ((32767)/(Nfft * 3)), g1 * ((32767)/(Nfft * 3)), g2 * ((32767)/(Nfft * 3)), N);
-	/*
-	int i=0;
-	for(i=0;i<N;i++){
-		Buffer_out_ping[2*i] = outBuffer2[i].real*32767/Nfft/4;
-	}
-	*/
+	process(Buffer_in_ping, Buffer_out_ping);
 }
 /*------------------------------------------------------------------
  * Trennung von PING/PONG
  * -----------------------------------------------------------------*/
 void process_pong_SWI(void)
 {
-	convertToComplexFloatAndGenerateSpectrum( Buffer_in_pong, twiddleFacC, BufferInputSpec, N, Nfft );
-	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer0, resultingSpec0, carryBuffer0, twiddleFacC, N, Nfft, Ncarry0);
-	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer1, resultingSpec1, carryBuffer1, twiddleFacC, N, Nfft, Ncarry1);
-	fastConvolutionOverlapAddfftDone( BufferInputSpec, outBuffer2, resultingSpec2, carryBuffer2, twiddleFacC, N, Nfft, Ncarry2);
-	dotSum3(outBuffer0, outBuffer1, outBuffer2, Buffer_out_pong ,g0*((32767)/(Nfft * 3)) ,g1*((32767)/(Nfft * 3)) ,g2*((32767)/(Nfft * 3)) , N);
-	/*
-	int i=0;
-	for(i=0;i<N;i++){
-		Buffer_out_pong[2*i] = outBuffer2[i].real*32767/Nfft/4;
-	}
-	*/
+	process(Buffer_in_pong, Buffer_out_pong);
 }
 
 void SWI_LEDToggle(void)
@@ -415,23 +396,61 @@ void tsk_led_toggle(void)
 		DSK6713_LED_toggle(1);
 	}
 }
-void buildSpecsOfFilters(){
-	generateSpectrumOnes(h00, twiddleFacC, h00Spec, firCoefN, Nfft);
-	generateSpectrumOnes(h01, twiddleFacC, h01Spec, firCoefN, Nfft);
-	generateSpectrumOnes(h10, twiddleFacC, h10Spec, firCoefN, Nfft);
-	generateSpectrumOnes(h11, twiddleFacC, h11Spec, firCoefN, Nfft);
-	generateSpectrumOnes(g00, twiddleFacC, g00Spec, firCoefN, Nfft);
-	generateSpectrumOnes(g01, twiddleFacC, g01Spec, firCoefN, Nfft);
-	generateSpectrumOnes(g10, twiddleFacC, g10Spec, firCoefN, Nfft);
-	generateSpectrumOnes(g11, twiddleFacC, g11Spec, firCoefN, Nfft);
+void initBuffers(
+){
+	int i=0;
+	for (i=0;i<N;i++){
+		Bca0[i].left=0;
+		Bca1[i].left=0;
+		Bcd2[i].left=0;
+		Bca2[i].left=0;
+		Bcd1[i].left=0;
+		Bcd21[i].left=0;
+		Bcd1d[i].left=0;
+		Bca01[i].left=0;
+		Bca21[i].left=0;
+		Bca11[i].left=0;
+
+		Bca0[i].right=0;
+		Bca1[i].right=0;
+		Bcd2[i].right=0;
+		Bca2[i].right=0;
+		Bcd1[i].right=0;
+		Bcd21[i].right=0;
+		Bcd1d[i].right=0;
+		Bca01[i].right=0;
+		Bca21[i].right=0;
+		Bca11[i].right=0;
+	}
+}
+void process(
+	short* BufferIn,
+	short* BufferOut
+){
+	convertToFloat((StereoShort*)BufferIn, Bca0, N);
+
+	processStereoFir(Bca0,Bcd1,N,Cca0,h01,coefN,1,false);	//first stage left
+	processStereoFir(Bca0,Bca1,N,Cca0,h00,coefN,1,true);
+
+	processStereoFir(Bca1,Bcd2,N,Cca1,h01,coefN,2,false);
+	processStereoFir(Bca1,Bca2,N,Cca1,h00,coefN,2,true);	//second stage lowpass branch left
+
+	att(Bcd1,N,gain2);
+	att(Bcd2,N,gain1);
+	att(Bca2,N,gain0);
+	delay(Bcd1, Bcd1d, N, Ccd1, delayHP);
+
+	processStereoFir(Bcd2,Bcd21,N,Ccd2,g01,coefN,2,true); //second stage lowpass branch right
+	processStereoFir(Bca2,Bca21,N,Cca2,g00,coefN,2,true);
+
+	sum(Bcd21,Bca21,N);	//sum ; result in Bcd21
+
+	processStereoFir(Bcd21,Bca11,N,Ccd21,g00,coefN,1,true); //first stage lowpass branch right
+
+	processStereoFir(Bcd1d,Bca01,N,Ccd1d,g01,coefN,1,true); //first stage highpass branch right
+
+	sum(Bca01,Bca11,N);	//sum ; result in Bca01
+
+	convertToShort(Bca01, (StereoShort*)BufferOut, N);
 }
 
-void genResultingSpecs(){
-
-	dotProductC(h10Spec,g10Spec,resultingSpec0,Nfft);
-	dotProductC(h11Spec,g11Spec,resultingSpec2,Nfft);
-	dotProductC(resultingSpec0,resultingSpec2,resultingSpec1,Nfft);
-	dotProductC(h00Spec,g00Spec,resultingSpec0,Nfft);
-	dotProductC(h01Spec,g01Spec,resultingSpec2,Nfft);
-	copyC(h00Spec,resultingSpec0,Nfft);
-}

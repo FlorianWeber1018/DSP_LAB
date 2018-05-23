@@ -34,7 +34,6 @@ skeletonmod\ flo.obj: C:/ti/bios_5_42_02_10/packages/ti/bios/include/_hook.h
 skeletonmod\ flo.obj: C:/ti/bios_5_42_02_10/packages/ti/bios/include/log.h
 skeletonmod\ flo.obj: C:/ti/bios_5_42_02_10/packages/ti/bios/include/_log.h
 skeletonmod\ flo.obj: C:/ti/bios_5_42_02_10/packages/ti/bios/include/trc.h
-skeletonmod\ flo.obj: ../bit_rev.h
 skeletonmod\ flo.obj: C:/ti/C6xCSL/include/csl.h
 skeletonmod\ flo.obj: C:/ti/C6xCSL/include/csl_chip.h
 skeletonmod\ flo.obj: C:/ti/C6xCSL/include/csl_stdinc.h
@@ -54,17 +53,11 @@ skeletonmod\ flo.obj: C:/ti/C6xCSL/include/csl_edmahal.h
 skeletonmod\ flo.obj: ../config_AIC23.h
 skeletonmod\ flo.obj: C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_led.h
 skeletonmod\ flo.obj: C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_dip.h
-skeletonmod\ flo.obj: ../fastFolding.h
 skeletonmod\ flo.obj: ../Buffer.c
-skeletonmod\ flo.obj: ../twiddle.h
 skeletonmod\ flo.obj: ../filters/g00.h
 skeletonmod\ flo.obj: ../filters/g01.h
-skeletonmod\ flo.obj: ../filters/g10.h
-skeletonmod\ flo.obj: ../filters/g11.h
 skeletonmod\ flo.obj: ../filters/h00.h
 skeletonmod\ flo.obj: ../filters/h01.h
-skeletonmod\ flo.obj: ../filters/h10.h
-skeletonmod\ flo.obj: ../filters/h11.h
 
 ../skeletonmod\ flo.c: 
 ../skeleton.h: 
@@ -100,7 +93,6 @@ C:/ti/bios_5_42_02_10/packages/ti/bios/include/_hook.h:
 C:/ti/bios_5_42_02_10/packages/ti/bios/include/log.h: 
 C:/ti/bios_5_42_02_10/packages/ti/bios/include/_log.h: 
 C:/ti/bios_5_42_02_10/packages/ti/bios/include/trc.h: 
-../bit_rev.h: 
 C:/ti/C6xCSL/include/csl.h: 
 C:/ti/C6xCSL/include/csl_chip.h: 
 C:/ti/C6xCSL/include/csl_stdinc.h: 
@@ -120,14 +112,8 @@ C:/ti/C6xCSL/include/csl_edmahal.h:
 ../config_AIC23.h: 
 C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_led.h: 
 C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_dip.h: 
-../fastFolding.h: 
 ../Buffer.c: 
-../twiddle.h: 
 ../filters/g00.h: 
 ../filters/g01.h: 
-../filters/g10.h: 
-../filters/g11.h: 
 ../filters/h00.h: 
 ../filters/h01.h: 
-../filters/h10.h: 
-../filters/h11.h: 
