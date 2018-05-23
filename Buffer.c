@@ -1,13 +1,13 @@
 #define coefN 16						//Length of the impulse response of the Filter
-#define N 1024								////length of the signal block from input/to output in StereoFloat
+#define N 512								////length of the signal block from input/to output in StereoFloat
 #define BUFFER_LEN (2*N)					//length of the signal block from input/to output in float
 #define delayHP (2*coefN-2)					//delay of the highpass path
 
 
 
 
-#define gain0 1.f
-#define gain1 1.f
+#define gain0 0.f
+#define gain1 0.f
 #define gain2 1.f
 
 

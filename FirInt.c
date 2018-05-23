@@ -98,6 +98,7 @@ void delay(
 			outBuffer[i].left = inBuffer[i-delay].left;
 			outBuffer[i].right = inBuffer[i-delay].right;
 		}else{
+			outBuffer[i].left = carryBuffer[i].left;
 			outBuffer[i].right = carryBuffer[i].right;
 		}
 	}
