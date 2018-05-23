@@ -77,5 +77,10 @@ void convertToComplexFloatAndGenerateSpectrum(
   short Nin,
   short Nout
 );
+void copyC(
+	ComplexFloat* src,
+	ComplexFloat* dest,
+	short size
+);
 int abs(int in);
 #endif

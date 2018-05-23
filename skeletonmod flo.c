@@ -427,9 +427,11 @@ void buildSpecsOfFilters(){
 }
 
 void genResultingSpecs(){
+
 	dotProductC(h10Spec,g10Spec,resultingSpec0,Nfft);
 	dotProductC(h11Spec,g11Spec,resultingSpec2,Nfft);
 	dotProductC(resultingSpec0,resultingSpec2,resultingSpec1,Nfft);
 	dotProductC(h00Spec,g00Spec,resultingSpec0,Nfft);
 	dotProductC(h01Spec,g01Spec,resultingSpec2,Nfft);
+	copyC(h00Spec,resultingSpec0,Nfft);
 }

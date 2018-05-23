@@ -128,3 +128,10 @@ void convertToComplexFloatAndGenerateSpectrum(
   DSPF_sp_cfftr2_dit((float*)output, (float*)twiddle, Nout);
 
 }
+void copyC(ComplexFloat* src, ComplexFloat* dest, short size){
+	int i=0;
+	for(i=0; i < size; i++){
+		dest[i].real = src[i].real;
+		dest[i].imag = src[i].imag;
+	}
+}
