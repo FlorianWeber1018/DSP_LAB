@@ -9,9 +9,10 @@ extern void config_EDMA(void);
 extern void config_interrupts(void);
 extern void SWI_LEDToggle(void);
 extern void tsk_led_toggle(void);
-typedef struct{
-  short left;
-  short right;
-} StereoShort;
+void process(
+	short* BufferIn,
+	short* BufferOut
+);
+void initBuffers();
 
 #endif /*SKELETON_H*/

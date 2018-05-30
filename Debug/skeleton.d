@@ -2,6 +2,7 @@
 
 skeleton.obj: ../skeleton.c
 skeleton.obj: ../skeleton.h
+skeleton.obj: ../cic.h
 skeleton.obj: C:/Users/dsplab/workspace_v6_2/DSPLAB/Debug/BIOS_configcfg.h
 skeleton.obj: C:/ti/bios_5_42_02_10/packages/ti/bios/include/std.h
 skeleton.obj: C:/ti/bios_5_42_02_10/packages/ti/bios/include/tistdtypes.h
@@ -52,9 +53,12 @@ skeleton.obj: C:/ti/C6xCSL/include/csl_edmahal.h
 skeleton.obj: ../config_AIC23.h
 skeleton.obj: C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_led.h
 skeleton.obj: C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_dip.h
+skeleton.obj: ../buf.c
+skeleton.obj: ../fdacoefs.h
 
 ../skeleton.c: 
 ../skeleton.h: 
+../cic.h: 
 C:/Users/dsplab/workspace_v6_2/DSPLAB/Debug/BIOS_configcfg.h: 
 C:/ti/bios_5_42_02_10/packages/ti/bios/include/std.h: 
 C:/ti/bios_5_42_02_10/packages/ti/bios/include/tistdtypes.h: 
@@ -105,3 +109,5 @@ C:/ti/C6xCSL/include/csl_edmahal.h:
 ../config_AIC23.h: 
 C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_led.h: 
 C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_dip.h: 
+../buf.c: 
+../fdacoefs.h: 

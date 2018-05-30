@@ -138,6 +138,9 @@ bios.MEM.instance("myMEM").len = 0x00030000;
 bios.MEM.instance("myMEM").base = 0x00020000;
 bios.MEM.instance("myMEM").len = 0x00020000;
 bios.MEM.instance("IRAM").len = 0x00020000;
+bios.MEM.instance("IRAM").len = 0x00015554;
+bios.MEM.instance("myMEM").base = 0x00015554;
+bios.MEM.instance("myMEM").len = 0x0002aaac;
 // !GRAPHICAL_CONFIG_TOOL_SCRIPT_INSERT_POINT!
 
 prog.gen();

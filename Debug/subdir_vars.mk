@@ -17,12 +17,14 @@ S??_SRCS += \
 
 C_SRCS += \
 ./BIOS_configcfg_c.c \
+../cic.c \
 ../config_AIC23.c \
 ../skeleton.c 
 
 OBJS += \
 ./BIOS_configcfg.obj \
 ./BIOS_configcfg_c.obj \
+./cic.obj \
 ./config_AIC23.obj \
 ./skeleton.obj 
 
@@ -38,6 +40,7 @@ S??_DEPS += \
 
 C_DEPS += \
 ./BIOS_configcfg_c.d \
+./cic.d \
 ./config_AIC23.d \
 ./skeleton.d 
 
@@ -63,6 +66,7 @@ GEN_FILES__QUOTED += \
 
 C_DEPS__QUOTED += \
 "BIOS_configcfg_c.d" \
+"cic.d" \
 "config_AIC23.d" \
 "skeleton.d" 
 
@@ -72,6 +76,7 @@ S??_DEPS__QUOTED += \
 OBJS__QUOTED += \
 "BIOS_configcfg.obj" \
 "BIOS_configcfg_c.obj" \
+"cic.obj" \
 "config_AIC23.obj" \
 "skeleton.obj" 
 
@@ -83,6 +88,7 @@ S??_OBJS__QUOTED += \
 
 C_SRCS__QUOTED += \
 "./BIOS_configcfg_c.c" \
+"../cic.c" \
 "../config_AIC23.c" \
 "../skeleton.c" 
 

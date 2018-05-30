@@ -12,6 +12,7 @@ GEN_CMDS__FLAG := -l"./BIOS_configcfg.cmd"
 ORDERED_OBJS += \
 "./BIOS_configcfg.obj" \
 "./BIOS_configcfg_c.obj" \
+"./cic.obj" \
 "./config_AIC23.obj" \
 "./skeleton.obj" \
 "../myMEMlinker.cmd" \
@@ -158,9 +159,9 @@ SSB.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_HDRS__QUOTED)$(GEN_MISC_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(BIN_OUTPUTS__QUOTED)$(GEN_CMDS__QUOTED)
-	-$(RM) "BIOS_configcfg_c.d" "config_AIC23.d" "skeleton.d" 
+	-$(RM) "BIOS_configcfg_c.d" "cic.d" "config_AIC23.d" "skeleton.d" 
 	-$(RM) "BIOS_configcfg.d" 
-	-$(RM) "BIOS_configcfg.obj" "BIOS_configcfg_c.obj" "config_AIC23.obj" "skeleton.obj" 
+	-$(RM) "BIOS_configcfg.obj" "BIOS_configcfg_c.obj" "cic.obj" "config_AIC23.obj" "skeleton.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

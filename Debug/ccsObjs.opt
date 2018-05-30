@@ -1,1 +1,1 @@
-"./BIOS_configcfg.obj" "./BIOS_configcfg_c.obj" "./config_AIC23.obj" "./skeleton.obj" "../myMEMlinker.cmd" -l"./BIOS_configcfg.cmd" -l"C:/ti/DSPLIB/c6700/dsplib/lib/dsp67x.lib" -l"C:/ti/DSK6713/c6000/dsk6713/lib/dsk6713bsl.lib" -l"C:/ti/C6xCSL/lib_3x/csl6713.lib" -lrts6700.lib 
+"./BIOS_configcfg.obj" "./BIOS_configcfg_c.obj" "./cic.obj" "./config_AIC23.obj" "./skeleton.obj" "../myMEMlinker.cmd" -l"./BIOS_configcfg.cmd" -l"C:/ti/DSPLIB/c6700/dsplib/lib/dsp67x.lib" -l"C:/ti/DSK6713/c6000/dsk6713/lib/dsk6713bsl.lib" -l"C:/ti/C6xCSL/lib_3x/csl6713.lib" -lrts6700.lib 

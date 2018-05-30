@@ -8,6 +8,8 @@
 *   F. Quint, HsKA
 ************************************************************/
 #include "skeleton.h"
+#include "cic.h"
+
 
 #include "BIOS_configcfg.h"
 
@@ -31,8 +33,7 @@
 /**
  * Buffer for filters in external file
  */
-#define BUFFER_LEN 512
-#define N ( BUFFER_LEN / 2 )
+#include "buf.c"
 //SECTION IN/OUT BUFFER BEGIN
 
 /* Ping-Pong buffers. Place them in the compiler section .datenpuffer */
@@ -195,7 +196,7 @@ main()
 
 	int i=0;
 
-
+	initBuffers();
 
 	CSL_init();
 
@@ -369,22 +370,14 @@ void EDMA_interrupt_service(void)
 
 void process_ping_SWI(void)
 {
-	int i=0;
-	for(i=0;i < N; i++){
-		((StereoShort*)Buffer_out_ping)[i].left = ((StereoShort*)Buffer_in_ping)[i].left;
-		((StereoShort*)Buffer_out_ping)[i].right = ((StereoShort*)Buffer_in_ping)[i].right;
-	}
+	process(Buffer_in_ping, Buffer_out_ping);
 }
 /*------------------------------------------------------------------
  * Trennung von PING/PONG
  * -----------------------------------------------------------------*/
 void process_pong_SWI(void)
 {
-	int i = 0;
-	for(i = 0;i < N; i++){
-		((StereoShort*)Buffer_out_pong)[i].left = ((StereoShort*)Buffer_in_pong)[i].left;
-		((StereoShort*)Buffer_out_pong)[i].right = ((StereoShort*)Buffer_in_pong)[i].right;
-	}
+	process(Buffer_in_pong, Buffer_out_pong);
 }
 
 void SWI_LEDToggle(void)
@@ -404,4 +397,45 @@ void tsk_led_toggle(void)
 
 		DSK6713_LED_toggle(1);
 	}
+}
+void initBuffers(
+){
+	int i=0;
+	for (i=0;i<Nhigh;i++){
+		i0[i].left=0;
+		i1[i].left=0;
+		i2[i].left=0;
+		i3[i].left=0;
+		i4[i].left=0;
+		i5[i].left=0;
+
+
+	}
+}
+void process(
+	short* BufferIn,
+	short* BufferOut
+){
+	ToFloat((StereoShort*)BufferIn, i0, Nhigh);
+	integrate(i0,dn,Nhigh,&ci0);
+  //integrate(i1,i2,Nhigh,&ci1);
+  //integrate(i2,dn,Nhigh,&ci2);
+  downSample(dn,c0,Nhigh,srd);
+  /*
+  differentiate(c0,c1,Nlow,&cc0);
+  differentiate(c1,c2,Nlow,&cc1);
+  differentiate(c2,hp,Nlow,&cc2);
+
+  StereoFir(hp,c3,Nlow,chp,Hlp,CoefSize);
+
+  differentiate(c3,c4,Nlow,&cc3);
+  differentiate(c4,c5,Nlow,&cc4);
+  differentiate(c5,up,Nlow,&cc5);
+  */
+  upSample(c0,i5,Nhigh,srd);
+  //integrate(i3,i4,Nhigh,&ci3);
+  //integrate(i4,i5,Nhigh,&ci4);
+  integrate(i5,out,Nhigh,&ci5);
+
+	ToShort(out, (StereoShort*)BufferOut, Nhigh);
 }
