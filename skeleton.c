@@ -8,7 +8,7 @@
 *   F. Quint, HsKA
 ************************************************************/
 #include "skeleton.h"
-#include "FirInt.h"
+
 #include "BIOS_configcfg.h"
 
 #include <csl.h>
@@ -31,7 +31,8 @@
 /**
  * Buffer for filters in external file
  */
-#include "Buffer.c"
+#define BUFFER_LEN 512
+
 //SECTION IN/OUT BUFFER BEGIN
 
 /* Ping-Pong buffers. Place them in the compiler section .datenpuffer */
@@ -191,7 +192,7 @@ main()
 	//buildSpecsOfFilters();
 	//genResultingSpecs();
 
-	initBuffers();
+
 	int i=0;
 
 
@@ -368,14 +369,20 @@ void EDMA_interrupt_service(void)
 
 void process_ping_SWI(void)
 {
-	process(Buffer_in_ping, Buffer_out_ping);
+	int i=0;
+	for(i=0;i < BUFFER_LEN; i++){
+		Buffer_out_ping[i]=Buffer_in_ping[i];
+	}
 }
 /*------------------------------------------------------------------
  * Trennung von PING/PONG
  * -----------------------------------------------------------------*/
 void process_pong_SWI(void)
 {
-	process(Buffer_in_pong, Buffer_out_pong);
+	int i=0;
+	for(i=0;i < BUFFER_LEN; i++){
+		Buffer_out_pong[i]=Buffer_in_pong[i];
+	}
 }
 
 void SWI_LEDToggle(void)
@@ -396,61 +403,3 @@ void tsk_led_toggle(void)
 		DSK6713_LED_toggle(1);
 	}
 }
-void initBuffers(
-){
-	int i=0;
-	for (i=0;i<N;i++){
-		Bca0[i].left=0;
-		Bca1[i].left=0;
-		Bcd2[i].left=0;
-		Bca2[i].left=0;
-		Bcd1[i].left=0;
-		Bcd21[i].left=0;
-		Bcd1d[i].left=0;
-		Bca01[i].left=0;
-		Bca21[i].left=0;
-		Bca11[i].left=0;
-
-		Bca0[i].right=0;
-		Bca1[i].right=0;
-		Bcd2[i].right=0;
-		Bca2[i].right=0;
-		Bcd1[i].right=0;
-		Bcd21[i].right=0;
-		Bcd1d[i].right=0;
-		Bca01[i].right=0;
-		Bca21[i].right=0;
-		Bca11[i].right=0;
-	}
-}
-void process(
-	short* BufferIn,
-	short* BufferOut
-){
-	convertToFloat((StereoShort*)BufferIn, Bca0, N);
-
-	processStereoFir(Bca0,Bcd1,N,Cca0,h01,coefN,1,false);	//first stage left
-	processStereoFir(Bca0,Bca1,N,Cca0,h00,coefN,1,true);
-
-	processStereoFir(Bca1,Bcd2,N,Cca1,h01,coefN,2,false);
-	processStereoFir(Bca1,Bca2,N,Cca1,h00,coefN,2,true);	//second stage lowpass branch left
-
-	att(Bcd1,N,gain2);
-	att(Bcd2,N,gain1);
-	att(Bca2,N,gain0);
-	delay(Bcd1, Bcd1d, N, Ccd1, delayHP);
-
-	processStereoFir(Bcd2,Bcd21,N,Ccd2,g01,coefN,2,true); //second stage lowpass branch right
-	processStereoFir(Bca2,Bca21,N,Cca2,g00,coefN,2,true);
-
-	sum(Bcd21,Bca21,N);	//sum ; result in Bcd21
-
-	processStereoFir(Bcd21,Bca11,N,Ccd21,g00,coefN,1,true); //first stage lowpass branch right
-
-	processStereoFir(Bcd1d,Bca01,N,Ccd1d,g01,coefN,1,true); //first stage highpass branch right
-
-	sum(Bca01,Bca11,N);	//sum ; result in Bca01
-
-	convertToShort(Bca01, (StereoShort*)BufferOut, N);
-}
-

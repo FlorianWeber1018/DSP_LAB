@@ -17,16 +17,14 @@ S??_SRCS += \
 
 C_SRCS += \
 ./BIOS_configcfg_c.c \
-../FirInt.c \
 ../config_AIC23.c \
-../skeletonmod\ flo.c 
+../skeleton.c 
 
 OBJS += \
 ./BIOS_configcfg.obj \
 ./BIOS_configcfg_c.obj \
-./FirInt.obj \
 ./config_AIC23.obj \
-./skeletonmod\ flo.obj 
+./skeleton.obj 
 
 GEN_MISC_FILES += \
 ./BIOS_config.cdb 
@@ -40,9 +38,8 @@ S??_DEPS += \
 
 C_DEPS += \
 ./BIOS_configcfg_c.d \
-./FirInt.d \
 ./config_AIC23.d \
-./skeletonmod\ flo.d 
+./skeleton.d 
 
 GEN_CMDS += \
 ./BIOS_configcfg.cmd 
@@ -66,9 +63,8 @@ GEN_FILES__QUOTED += \
 
 C_DEPS__QUOTED += \
 "BIOS_configcfg_c.d" \
-"FirInt.d" \
 "config_AIC23.d" \
-"skeletonmod flo.d" 
+"skeleton.d" 
 
 S??_DEPS__QUOTED += \
 "BIOS_configcfg.d" 
@@ -76,9 +72,8 @@ S??_DEPS__QUOTED += \
 OBJS__QUOTED += \
 "BIOS_configcfg.obj" \
 "BIOS_configcfg_c.obj" \
-"FirInt.obj" \
 "config_AIC23.obj" \
-"skeletonmod flo.obj" 
+"skeleton.obj" 
 
 S??_SRCS__QUOTED += \
 "./BIOS_configcfg.s??" 
@@ -88,9 +83,8 @@ S??_OBJS__QUOTED += \
 
 C_SRCS__QUOTED += \
 "./BIOS_configcfg_c.c" \
-"../FirInt.c" \
 "../config_AIC23.c" \
-"../skeletonmod flo.c" 
+"../skeleton.c" 
 
 EXE_SRCS__QUOTED += \
 "../tuxboot-0.8.2.exe" 
