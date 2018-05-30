@@ -32,7 +32,7 @@
  * Buffer for filters in external file
  */
 #define BUFFER_LEN 512
-
+#define N ( BUFFER_LEN / 2 )
 //SECTION IN/OUT BUFFER BEGIN
 
 /* Ping-Pong buffers. Place them in the compiler section .datenpuffer */
@@ -370,8 +370,9 @@ void EDMA_interrupt_service(void)
 void process_ping_SWI(void)
 {
 	int i=0;
-	for(i=0;i < BUFFER_LEN; i++){
-		Buffer_out_ping[i]=Buffer_in_ping[i];
+	for(i=0;i < N; i++){
+		((StereoShort*)Buffer_out_ping)[i].left = ((StereoShort*)Buffer_in_ping)[i].left;
+		((StereoShort*)Buffer_out_ping)[i].right = ((StereoShort*)Buffer_in_ping)[i].right;
 	}
 }
 /*------------------------------------------------------------------
@@ -379,9 +380,10 @@ void process_ping_SWI(void)
  * -----------------------------------------------------------------*/
 void process_pong_SWI(void)
 {
-	int i=0;
-	for(i=0;i < BUFFER_LEN; i++){
-		Buffer_out_pong[i]=Buffer_in_pong[i];
+	int i = 0;
+	for(i = 0;i < N; i++){
+		((StereoShort*)Buffer_out_pong)[i].left = ((StereoShort*)Buffer_in_pong)[i].left;
+		((StereoShort*)Buffer_out_pong)[i].right = ((StereoShort*)Buffer_in_pong)[i].right;
 	}
 }
 
