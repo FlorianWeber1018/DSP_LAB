@@ -13,35 +13,36 @@ typedef struct{
   short right;
 } StereoShort;
 typedef struct{
-  float left;
-  float right;
-} StereoFloat;
+  int real;
+  int imag;
+} ComplexInt;
 
 
 void integrate(
-  StereoFloat* BufferIn,
-  StereoFloat* BufferOut,
+  ComplexInt* BufferIn,
+  ComplexInt* BufferOut,
   short BufferSize,
-  StereoFloat* LastOutVal
+  ComplexInt* LastOutVal
 );
 void differentiate(
-  StereoFloat* BufferIn,
-  StereoFloat* BufferOut,
+  ComplexInt* BufferIn,
+  ComplexInt* BufferOut,
   short BufferSize,
-  StereoFloat* LastInVal
+  ComplexInt* LastInVal
 );
 void downSample(
-  StereoFloat* BufferIn,
-  StereoFloat* BufferOut,
+  ComplexInt* BufferIn,
+  ComplexInt* BufferOut,
   short BufferSizeOut,
   short SampleRateDivider
 );
 void upSample(
-  StereoFloat* BufferIn,
-  StereoFloat* BufferOut,
+  ComplexInt* BufferIn,
+  ComplexInt* BufferOut,
   short BufferSizeOut,
   short SampleRateMultiplikator
 );
+/*
 void StereoFir(
 	StereoFloat* inBuffer,
  	StereoFloat* outBuffer,
@@ -50,15 +51,26 @@ void StereoFir(
  	float* coef,
  	short coefSize
 );
-void ToFloat(
+*/
+void ToComplexInt(
 	StereoShort* in,
-	StereoFloat* out,
+	ComplexInt* out,
 	short bufferSize
 );
 void ToShort(
-	StereoFloat* in,
+	ComplexInt* in,
 	StereoShort* out,
 	short bufferSize
 );
+void mulLookup(
+  ComplexInt* in,
+  ComplexInt* out,
+  short bufferSize,
+  int* lookupTable,
+  int DCgain,
+  short lookupTableSize,
+  short* currentindex
+);
+void initComplexInt(ComplexInt* data);
 
 #endif /* CIC_H_ */

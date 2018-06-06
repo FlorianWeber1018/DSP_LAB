@@ -401,41 +401,49 @@ void tsk_led_toggle(void)
 void initBuffers(
 ){
 	int i=0;
-	for (i=0;i<Nhigh;i++){
-		i0[i].left=0;
-		i1[i].left=0;
-		i2[i].left=0;
-		i3[i].left=0;
-		i4[i].left=0;
-		i5[i].left=0;
-
-
+  //initComplexInt()
+  initComplexInt(&ci0);
+  initComplexInt(&ci1);
+  initComplexInt(&ci2);
+  initComplexInt(&ci3);
+  initComplexInt(&ci4);
+  initComplexInt(&ci5);
+  for (i=0;i<Nhigh;i++){
+    //bb[i].real=0;
+    //bb[i].imag=0;
 	}
 }
 void process(
 	short* BufferIn,
 	short* BufferOut
 ){
-	ToFloat((StereoShort*)BufferIn, i0, Nhigh);
-	integrate(i0,dn,Nhigh,&ci0);
-  //integrate(i1,i2,Nhigh,&ci1);
-  //integrate(i2,dn,Nhigh,&ci2);
-  downSample(dn,c0,Nhigh,srd);
-  /*
-  differentiate(c0,c1,Nlow,&cc0);
-  differentiate(c1,c2,Nlow,&cc1);
-  differentiate(c2,hp,Nlow,&cc2);
+	ToComplexInt((StereoShort*)BufferIn, bb, Nhigh);
 
-  StereoFir(hp,c3,Nlow,chp,Hlp,CoefSize);
+  mulLookup(bb, ba, Nhigh, (ComplexInt*)H, DC_gainH, 1000, &indexH);
 
-  differentiate(c3,c4,Nlow,&cc3);
-  differentiate(c4,c5,Nlow,&cc4);
-  differentiate(c5,up,Nlow,&cc5);
-  */
-  upSample(c0,i5,Nhigh,srd);
-  //integrate(i3,i4,Nhigh,&ci3);
-  //integrate(i4,i5,Nhigh,&ci4);
-  integrate(i5,out,Nhigh,&ci5);
+	integrate(ba,bb,Nhigh,&ci0);
+  integrate(bb,ba,Nhigh,&ci1);
+  integrate(ba,bb,Nhigh,&ci2);
 
-	ToShort(out, (StereoShort*)BufferOut, Nhigh);
+  downSample(bb,ba,Nlow,srd);
+
+  differentiate(ba,bb,Nlow,&cc0);
+  differentiate(bb,ba,Nlow,&cc1);
+  differentiate(ba,bb,Nlow,&cc2);
+
+  //StereoFir(hp,c3,Nlow,chp,Hlp,CoefSize);
+
+  differentiate(bb,ba,Nlow,&cc3);
+  differentiate(ba,bb,Nlow,&cc4);
+  differentiate(bb,ba,Nlow,&cc5);
+
+  upSample(ba,bb,Nhigh,srd);
+
+  integrate(bb,ba,Nhigh,&ci3);
+  integrate(ba,bb,Nhigh,&ci4);
+  integrate(bb,ba,Nhigh,&ci5);
+
+  mulLookup(ba, bb, Nhigh, (ComplexInt*)R, DC_gainR, 1000, &indexR);
+
+  ToShort(bb, (StereoShort*)BufferOut, Nhigh);
 }

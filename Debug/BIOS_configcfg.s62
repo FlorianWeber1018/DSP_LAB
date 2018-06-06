@@ -5,7 +5,7 @@
 ;; INPUT BIOS_config.cdb
 
 ;; CONFIGURATION/VERSION INFORMATION
-	.asg "Wed May 30 18:36:42 2018", VERS$DATE
+	.asg "Wed Jun 06 11:18:21 2018", VERS$DATE
 
 ;; PROLOGUE
 	.include BIOS_configcfg.h62

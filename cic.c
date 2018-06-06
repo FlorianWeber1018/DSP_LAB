@@ -1,4 +1,69 @@
 #include "cic.h"
+
+void integrate(
+  ComplexInt* BufferIn,
+  ComplexInt* BufferOut,
+  short BufferSize,
+  ComplexInt* LastOutVal
+){
+  short i=0;
+  BufferOut[0].real = BufferIn[0].real + LastOutVal->real;
+  BufferOut[0].imag = BufferIn[0].imag + LastOutVal->imag;
+
+  for(i=1; i < BufferSize; i++){
+    BufferOut[i].real = BufferIn[i].real + BufferOut[i-1].real;
+    BufferOut[i].imag = BufferIn[i].imag + BufferOut[i-1].imag;
+  }
+  LastOutVal->real = BufferOut[ BufferSize - 1 ].real;
+  LastOutVal->imag = BufferOut[ BufferSize - 1 ].imag;
+}
+void differentiate(
+  ComplexInt* BufferIn,
+  ComplexInt* BufferOut,
+  short BufferSize,
+  ComplexInt* LastInVal
+){
+  short i=0;
+  BufferOut[0].real = BufferIn[0].real - LastInVal->real;
+  BufferOut[0].imag = BufferIn[0].imag - LastInVal->imag;
+  for(i=1; i < BufferSize; i++){
+    BufferOut[i].real = BufferIn[i].real - BufferIn[i-1].real;
+    BufferOut[i].imag = BufferIn[i].imag - BufferIn[i-1].imag;
+  }
+  LastInVal->real = BufferIn[ BufferSize - 1 ].real;
+  LastInVal->imag = BufferIn[ BufferSize - 1 ].imag;
+}
+void downSample(
+  ComplexInt* BufferIn,
+  ComplexInt* BufferOut,
+  short BufferSizeOut,
+  short SampleRateDivider
+){
+  short i=0;
+  for(i=0; i < BufferSizeOut; i++){
+    BufferOut[i].real = BufferIn[ i * SampleRateDivider].real;
+    BufferOut[i].imag = BufferIn[ i * SampleRateDivider].imag;
+  }
+}
+void upSample(
+  ComplexInt* BufferIn,
+  ComplexInt* BufferOut,
+  short BufferSizeOut,
+  short SampleRateMultiplikator
+){
+  short i=0;
+  for(i=0; i < BufferSizeOut; i ++){
+    BufferOut[i].real = 0;
+    BufferOut[i].imag = 0;
+  }
+  for(i=0; i < BufferSizeOut; i += SampleRateMultiplikator){
+    BufferOut[i].real = BufferIn[ i / SampleRateMultiplikator ].real;
+    BufferOut[i].imag = BufferIn[ i / SampleRateMultiplikator ].imag;
+  }
+}
+
+
+/*
 void integrate(
   StereoFloat* BufferIn,
   StereoFloat* BufferOut,
@@ -77,26 +142,54 @@ void StereoFir(
 		  carryBuffer[i].right = inBuffer[i + bufferSize - coefSize].right;
 	 }
 
-}
-void ToFloat(
+}*/
+void ToComplexInt(
 	StereoShort* in,
-	StereoFloat* out,
+	ComplexInt* out,
 	short bufferSize
 ){
 	int i=0;
 	for (i=0;i<bufferSize;i++){
-		out[i].left = (float)in[i].left;
-
+		out[i].real = (int)(in[i].left) / 4;
+    out[i].imag = 0;
 	}
 }
 void ToShort(
-	StereoFloat* in,
+	ComplexInt* in,
 	StereoShort* out,
 	short bufferSize
 ){
 	int i=0;
+
 	for (i=0;i<bufferSize;i++){
-		out[i].left = (short)in[i].left;
+		out[i].left = (short)(in[i].real / 65535);
 		out[i].right = 0;
 	}
+}
+void mulLookup(
+  ComplexInt* in,
+  ComplexInt* out,
+  short bufferSize,
+  ComplexInt* lookupTable,
+  int DCgain,
+  short lookupTableSize,
+  short* currentindex
+){
+  short i=0;
+  for(i=0; i<bufferSize; i++){
+    out[i].real = ((lookupTable[currentindex*].real * in[i].real )
+      - (lookupTable[currentindex].imag * in[i].imag ))/DCgain;
+    out[i].imag = ((lookupTable[currentindex*].real * in[i].imag )
+      + (lookupTable[currentindex].imag * in[i].real ))/DCgain;
+    currentindex* ++;
+    if(currentindex* >= lookupTableSize ){
+      currentindex* = 0;
+    }
+  }
+  out[i].real = ((in0[i].real * in1[i].real ) - (in0[i].imag * in1[i].imag ))/DCgain;
+	out[i].imag = ((in0[i].real * in1[i].imag ) + (in0[i].imag * in1[i].real ))/DCgain;
+}
+void initComplexInt(ComplexInt* data){
+  data->real=0;
+  data->imag=0;
 }
