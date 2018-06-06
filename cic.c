@@ -62,87 +62,6 @@ void upSample(
   }
 }
 
-
-/*
-void integrate(
-  StereoFloat* BufferIn,
-  StereoFloat* BufferOut,
-  short BufferSize,
-  StereoFloat* LastOutVal
-){
-  int i=0;
-  BufferOut[0].left = BufferIn[0].left + LastOutVal->left;
-  for(i=1; i < BufferSize; i++){
-    BufferOut[i].left = BufferIn[i].left + BufferOut[i-1].left;
-  }
-  LastOutVal->left = BufferOut[ BufferSize - 1 ].left;
-}
-
-void differentiate(
-  StereoFloat* BufferIn,
-  StereoFloat* BufferOut,
-  short BufferSize,
-  StereoFloat* LastInVal
-){
-  int i=0;
-  BufferOut[0].left = BufferIn[0].left - LastInVal->left;
-  for(i=1; i < BufferSize; i++){
-    BufferOut[i].left = BufferIn[i].left - BufferIn[i-1].left;
-  }
-  LastInVal->left = BufferIn[ BufferSize - 1 ].left;
-}
-void downSample(
-  StereoFloat* BufferIn,
-  StereoFloat* BufferOut,
-  short BufferSizeOut,
-  short SampleRateDivider
-){
-  int i=0;
-  for(i=0; i < BufferSizeOut; i++){
-    BufferOut[i].left = BufferIn[ i * SampleRateDivider].left;
-  }
-}
-void upSample(
-  StereoFloat* BufferIn,
-  StereoFloat* BufferOut,
-  short BufferSizeOut,
-  short SampleRateMultiplikator
-){
-  int i=0;
-  for(i=0; i < BufferSizeOut; i += 48){
-    BufferOut[i].left = BufferIn[ i / SampleRateMultiplikator ].left;
-  }
-}
-void StereoFir(
-	StereoFloat* inBuffer,
- 	StereoFloat* outBuffer,
- 	short bufferSize,
- 	StereoFloat* carryBuffer,
- 	float* coef,
- 	short coefSize
-){
-	short i=0;
-	short j=0;
-	for(i=0; i < bufferSize; i++){
-		outBuffer[i].left = 0;
-		outBuffer[i].right = 0;
-		for(j=0;j<coefSize;j++){
-			if(i-j >= 0){
-				outBuffer[i].left += inBuffer[i-j].left * coef[j];
-				outBuffer[i].right += inBuffer[i-j].right * coef[j];
-			}else{
-				outBuffer[i].left += carryBuffer[coefSize + i - j].left * coef[j];
-				outBuffer[i].right += carryBuffer[coefSize + i - j].right * coef[j];
-			}
-	   }
-	 }
-	 // * Save the last (coefSize) values of inBuffer for next processing
-	 for( i=0; i<coefSize; i++){
-		  carryBuffer[i].left = inBuffer[i + bufferSize - coefSize].left;
-		  carryBuffer[i].right = inBuffer[i + bufferSize - coefSize].right;
-	 }
-
-}*/
 void ToComplexInt(
 	StereoShort* in,
 	ComplexInt* out,
@@ -150,7 +69,7 @@ void ToComplexInt(
 ){
 	int i=0;
 	for (i=0;i<bufferSize;i++){
-		out[i].real = (int)(in[i].left) / 16;
+		out[i].real = (int)(in[i].left) ;
     out[i].imag = 0;
 	}
 }
@@ -162,7 +81,7 @@ void ToShort(
 	int i=0;
 
 	for (i=0;i<bufferSize;i++){
-		out[i].left = (short)(in[i].real /4);
+		out[i].left = (short)(in[i].real);///110592);
 		out[i].right = 0;
 	}
 }
@@ -181,7 +100,7 @@ void mulLookup(
       - (lookupTable[*currentindex].imag * in[i].imag ))/DCgain;
     out[i].imag = ((lookupTable[*currentindex].real * in[i].imag )
       + (lookupTable[*currentindex].imag * in[i].real ))/DCgain;
-    *currentindex ++;
+    (*currentindex)++;
     if(*currentindex >= lookupTableSize ){
       *currentindex = 0;
     }
@@ -190,4 +109,47 @@ void mulLookup(
 void initComplexInt(ComplexInt* data){
   data->real=0;
   data->imag=0;
+}
+
+void ComplexFir(
+	ComplexInt* inBuffer,
+ 	ComplexInt* outBuffer,
+ 	short bufferSize,
+ 	ComplexInt* carryBuffer,
+ 	int* coef,
+ 	short coefSize,
+	long DCgain
+){
+	short i=0;
+	short j=0;
+  long tempReal=0;
+  long tempImag=0;
+	for(i=0; i < bufferSize; i++){
+		tempReal = 0;
+		tempImag = 0;
+		for(j=0;j<coefSize;j++){
+			if(i-j >= 0){
+				tempReal += inBuffer[i-j].real * coef[j];
+				tempImag += inBuffer[i-j].imag * coef[j];
+			}else{
+				tempReal += carryBuffer[coefSize + i - j].real * coef[j];
+				tempImag += carryBuffer[coefSize + i - j].imag * coef[j];
+			}
+		}
+		outBuffer[i].real = (int)(tempReal / DCgain);
+		outBuffer[i].imag = (int)(tempImag / DCgain);
+	}
+	// * Save the last (coefSize) values of inBuffer for next processing
+	for( i=0; i<coefSize; i++){
+		carryBuffer[i].real = inBuffer[i + bufferSize - coefSize].real;
+		carryBuffer[i].imag = inBuffer[i + bufferSize - coefSize].imag;
+	}
+}
+void stupidMemCopy(ComplexInt* src, ComplexInt* dest, int cnt)
+{
+	int i=0;
+	for(i=0;i < cnt; i++){
+		dest[i].real=src[i].real;
+		dest[i].imag=src[i].imag;
+	}
 }

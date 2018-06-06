@@ -8,10 +8,10 @@
 #define BUFFER_LEN 4032       //GANZZAHLIG TEILBAR DURCH SRD!!!!!
 #define Nhigh ( BUFFER_LEN / 2 )
 #define Nlow ( Nhigh / srd )
-#define CoefSize  40
+#define coefSize  40
 
 
-#pragma DATA_SECTION(Hlp, ".datenpuffer");
+#pragma DATA_SECTION(Ghp, ".datenpuffer");
 #include "fdacoefs.h"
 #pragma DATA_SECTION(H, ".datenpuffer");
 #include "H.h"
@@ -55,9 +55,6 @@ ComplexInt cc5;
 short indexH;
 #pragma DATA_SECTION(indexR, ".datenpuffer");
 short indexR;
-/*
+
 #pragma DATA_SECTION(chp, ".datenpuffer");
-ComplexInt chp[CoefSize];
-#pragma DATA_SECTION(out, ".datenpuffer");
-ComplexInt out[Nhigh];
-*/
+ComplexInt chp[coefSize];

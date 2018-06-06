@@ -72,5 +72,14 @@ void mulLookup(
   short* currentindex
 );
 void initComplexInt(ComplexInt* data);
-
+void ComplexFir(
+	ComplexInt* inBuffer,
+ 	ComplexInt* outBuffer,
+ 	short bufferSize,
+ 	ComplexInt* carryBuffer,
+ 	int* coef,
+ 	short coefSize,
+	long DCgain
+);
+void stupidMemCopy(ComplexInt* src, ComplexInt* dest, int cnt);
 #endif /* CIC_H_ */
