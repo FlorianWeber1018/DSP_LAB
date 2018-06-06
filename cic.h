@@ -66,7 +66,7 @@ void mulLookup(
   ComplexInt* in,
   ComplexInt* out,
   short bufferSize,
-  int* lookupTable,
+  ComplexInt* lookupTable,
   int DCgain,
   short lookupTableSize,
   short* currentindex

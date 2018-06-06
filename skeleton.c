@@ -420,7 +420,7 @@ void process(
 	ToComplexInt((StereoShort*)BufferIn, bb, Nhigh);
 
   mulLookup(bb, ba, Nhigh, (ComplexInt*)H, DC_gainH, 1000, &indexH);
-
+/*
 	integrate(ba,bb,Nhigh,&ci0);
   integrate(bb,ba,Nhigh,&ci1);
   integrate(ba,bb,Nhigh,&ci2);
@@ -442,7 +442,7 @@ void process(
   integrate(bb,ba,Nhigh,&ci3);
   integrate(ba,bb,Nhigh,&ci4);
   integrate(bb,ba,Nhigh,&ci5);
-
+*/
   mulLookup(ba, bb, Nhigh, (ComplexInt*)R, DC_gainR, 1000, &indexR);
 
   ToShort(bb, (StereoShort*)BufferOut, Nhigh);

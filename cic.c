@@ -150,7 +150,7 @@ void ToComplexInt(
 ){
 	int i=0;
 	for (i=0;i<bufferSize;i++){
-		out[i].real = (int)(in[i].left) / 4;
+		out[i].real = (int)(in[i].left) / 16;
     out[i].imag = 0;
 	}
 }
@@ -162,7 +162,7 @@ void ToShort(
 	int i=0;
 
 	for (i=0;i<bufferSize;i++){
-		out[i].left = (short)(in[i].real / 65535);
+		out[i].left = (short)(in[i].real /4);
 		out[i].right = 0;
 	}
 }
@@ -177,17 +177,15 @@ void mulLookup(
 ){
   short i=0;
   for(i=0; i<bufferSize; i++){
-    out[i].real = ((lookupTable[currentindex*].real * in[i].real )
-      - (lookupTable[currentindex].imag * in[i].imag ))/DCgain;
-    out[i].imag = ((lookupTable[currentindex*].real * in[i].imag )
-      + (lookupTable[currentindex].imag * in[i].real ))/DCgain;
-    currentindex* ++;
-    if(currentindex* >= lookupTableSize ){
-      currentindex* = 0;
+    out[i].real = ((lookupTable[*currentindex].real * in[i].real )
+      - (lookupTable[*currentindex].imag * in[i].imag ))/DCgain;
+    out[i].imag = ((lookupTable[*currentindex].real * in[i].imag )
+      + (lookupTable[*currentindex].imag * in[i].real ))/DCgain;
+    *currentindex ++;
+    if(*currentindex >= lookupTableSize ){
+      *currentindex = 0;
     }
   }
-  out[i].real = ((in0[i].real * in1[i].real ) - (in0[i].imag * in1[i].imag ))/DCgain;
-	out[i].imag = ((in0[i].real * in1[i].imag ) + (in0[i].imag * in1[i].real ))/DCgain;
 }
 void initComplexInt(ComplexInt* data){
   data->real=0;
