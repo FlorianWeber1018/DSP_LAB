@@ -55,6 +55,8 @@ skeleton.obj: C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_led.h
 skeleton.obj: C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_dip.h
 skeleton.obj: ../buf.c
 skeleton.obj: ../fdacoefs.h
+skeleton.obj: ../H.h
+skeleton.obj: ../R.h
 
 ../skeleton.c: 
 ../skeleton.h: 
@@ -111,3 +113,5 @@ C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_led.h:
 C:/ti/DSK6713/c6000/dsk6713/include/dsk6713_dip.h: 
 ../buf.c: 
 ../fdacoefs.h: 
+../H.h: 
+../R.h: 
