@@ -424,7 +424,7 @@ void process(
 
 	ToComplexInt((StereoShort*)BufferIn, bb, Nhigh);
 
-	mulLookup(bb, ba, Nhigh, (ComplexInt*)H, DC_gainH, 1000, &indexH);
+	mulLookup(bb, ba, Nhigh, (ComplexInt*)H, DC_gainH, 48, &indexH);
 
   integrate(ba,bb,Nhigh,&ci0);
   integrate(bb,ba,Nhigh,&ci1);
@@ -436,23 +436,24 @@ void process(
   differentiate(bb,ba,Nlow,&cc1);
   differentiate(ba,bb,Nlow,&cc2);
 
-  if(DSK6713_DIP_get(0)){
-	 ComplexFir(bb,ba,Nlow,chp,Ghp,coefSize,DC_gainHp);
-  }else{
-	  stupidMemCopy(bb, ba, Nlow);
-  }
+  //if(DSK6713_DIP_get(0)){
+  gain(bb,ba,Nlow,110592);
+	ComplexFir(ba,bb,Nlow,chp,fdaCoef,coefSize,DC_gainfdaCoef);
+  //}else{
+//	  stupidMemCopy(bb, ba, Nlow);
+  //}
 
-  differentiate(ba,bb,Nlow,&cc3);
-  differentiate(bb,ba,Nlow,&cc4);
-  differentiate(ba,bb,Nlow,&cc5);
+  differentiate(bb,ba,Nlow,&cc3);
+  differentiate(ba,bb,Nlow,&cc4);
+  differentiate(bb,ba,Nlow,&cc5);
 
-  upSample(bb,ba,Nhigh,srd);
+  upSample(ba,bb,Nhigh,srd);
 
-  integrate(ba,bb,Nhigh,&ci3);
-  integrate(bb,ba,Nhigh,&ci4);
-  integrate(ba,bb,Nhigh,&ci5);
+  integrate(bb,ba,Nhigh,&ci3);
+  integrate(ba,bb,Nhigh,&ci4);
+  integrate(bb,ba,Nhigh,&ci5);
 
-  //mulLookup(ba, bb, Nhigh, (ComplexInt*)R, DC_gainR, 1000, &indexR);
+  mulLookup(ba, bb, Nhigh, (ComplexInt*)R, DC_gainR, 48, &indexR);
 
   ToShort(bb, (StereoShort*)BufferOut, Nhigh);
 }

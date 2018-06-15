@@ -69,7 +69,7 @@ void ToComplexInt(
 ){
 	int i=0;
 	for (i=0;i<bufferSize;i++){
-		out[i].real = (int)(in[i].left) ;
+		out[i].real = (int)(in[i].left) / 4;
     out[i].imag = 0;
 	}
 }
@@ -81,7 +81,7 @@ void ToShort(
 	int i=0;
 
 	for (i=0;i<bufferSize;i++){
-		out[i].left = (short)(in[i].real);///110592);
+		out[i].left = (short)((in[i].real)/8); //theoretisch nur /8 aber da der laptop nur ein mic in hat /64
 		out[i].right = 0;
 	}
 }
@@ -143,6 +143,18 @@ void ComplexFir(
 	for( i=0; i<coefSize; i++){
 		carryBuffer[i].real = inBuffer[i + bufferSize - coefSize].real;
 		carryBuffer[i].imag = inBuffer[i + bufferSize - coefSize].imag;
+	}
+}
+void gain(
+  ComplexInt* in,
+  ComplexInt* out,
+  short BufferSize,
+  int gain
+){
+  int i=0;
+	for(i=0;i < BufferSize; i++){
+		out[i].real = in[i].real / gain;
+		out[i].imag = in[i].imag / gain;
 	}
 }
 void stupidMemCopy(ComplexInt* src, ComplexInt* dest, int cnt)

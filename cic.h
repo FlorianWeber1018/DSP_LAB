@@ -71,6 +71,12 @@ void mulLookup(
   short lookupTableSize,
   short* currentindex
 );
+void gain(
+  ComplexInt* in,
+  ComplexInt* out,
+  short BufferSize,
+  int gain
+);
 void initComplexInt(ComplexInt* data);
 void ComplexFir(
 	ComplexInt* inBuffer,
